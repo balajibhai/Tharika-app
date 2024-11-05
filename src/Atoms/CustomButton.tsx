@@ -1,21 +1,16 @@
 import { Button } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
+import Icon, { ICON_MAP } from "./Icon";
 
 type CustomButtonProps = {
   icon: keyof typeof ICON_MAP;
   content: string;
 };
 
-const ICON_MAP = {
-  AddIcon: AddIcon,
-};
-
 const CustomButton = ({ icon, content }: CustomButtonProps) => {
-  const Component = ICON_MAP[icon];
   return (
     <Button
       variant="contained"
-      startIcon={icon}
+      startIcon={<Icon icon={icon} />}
       sx={{
         backgroundColor: "#5A63F0", // Matches the purple color
         color: "white",
