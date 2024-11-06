@@ -8,7 +8,11 @@ const WhiteCardStyle = styled(Box)(({ theme }) => ({
   marginBottom: "50px",
 }));
 
-const WhiteCard = () => {
+type WhiteCardProps = {
+  children: React.ReactNode;
+};
+
+const WhiteCard = ({ children }: WhiteCardProps) => {
   return (
     <WhiteCardStyle>
       <Card
@@ -24,6 +28,7 @@ const WhiteCard = () => {
         }}
       >
         <CardContent>
+          {children}
           <CustomButton content="Add New Memory" icon={"AddIcon"} />
         </CardContent>
       </Card>

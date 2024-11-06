@@ -1,7 +1,7 @@
 import { Box, styled } from "@mui/material";
-import WhiteCard from "./Atoms/WhiteCard";
 import Footer from "./Molecules/Footer";
 import Header from "./Molecules/Header";
+import Home from "./Organisms/Home";
 
 const AppStyle = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -13,7 +13,7 @@ function App() {
   return (
     <AppStyle>
       <Header />
-      <WhiteCard />
+      <Home />
       <Footer />
     </AppStyle>
   );
