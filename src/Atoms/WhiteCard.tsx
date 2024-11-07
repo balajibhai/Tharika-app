@@ -21,8 +21,8 @@ const WhiteCard = ({ children }: WhiteCardProps) => {
           padding: 3,
           boxShadow: 3,
           borderRadius: 2,
-          maxWidth: 800,
-          height: 500,
+          maxWidth: 575,
+          height: 400,
           margin: "auto",
           mt: 5, // Adds top margin
         }}
