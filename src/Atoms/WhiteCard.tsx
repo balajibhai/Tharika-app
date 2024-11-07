@@ -1,32 +1,26 @@
-import { Box, Card, CardContent, styled } from "@mui/material";
+import { Box, Card, CardContent, styled, SxProps, Theme } from "@mui/material";
 
-const WhiteCardStyle = styled(Box)(({ theme }) => ({
-  flex: 1,
-  overflowY: "auto",
-  marginTop: "60px",
-  marginBottom: "50px",
-}));
-
+// Update WhiteCardProps to include an sx prop
 type WhiteCardProps = {
   children: React.ReactNode;
+  sx?: SxProps<Theme>; // Allows custom styles to be passed as a style object
+  cardStyle: {};
+  cardContentStyle?: {};
 };
 
-const WhiteCard = ({ children }: WhiteCardProps) => {
+// WhiteCardStyle now just styles Box without spreading sx, as Box will handle it directly
+const WhiteCardStyle = styled(Box)({});
+
+const WhiteCard = ({
+  children,
+  sx,
+  cardStyle,
+  cardContentStyle,
+}: WhiteCardProps) => {
   return (
-    <WhiteCardStyle>
-      <Card
-        sx={{
-          backgroundColor: "white",
-          padding: 3,
-          boxShadow: 3,
-          borderRadius: 2,
-          maxWidth: 575,
-          height: 620,
-          margin: "auto",
-          mt: 5, // Adds top margin
-        }}
-      >
-        <CardContent>{children}</CardContent>
+    <WhiteCardStyle sx={sx}>
+      <Card sx={cardStyle}>
+        <CardContent sx={cardContentStyle}>{children}</CardContent>
       </Card>
     </WhiteCardStyle>
   );
