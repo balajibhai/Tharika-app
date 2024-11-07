@@ -1,5 +1,4 @@
 import { Box, Card, CardContent, styled } from "@mui/material";
-import CustomButton from "./CustomButton";
 
 const WhiteCardStyle = styled(Box)(({ theme }) => ({
   flex: 1,
@@ -22,15 +21,12 @@ const WhiteCard = ({ children }: WhiteCardProps) => {
           boxShadow: 3,
           borderRadius: 2,
           maxWidth: 575,
-          height: 400,
+          height: 620,
           margin: "auto",
           mt: 5, // Adds top margin
         }}
       >
-        <CardContent>
-          {children}
-          <CustomButton content="Add New Memory" icon={"AddIcon"} />
-        </CardContent>
+        <CardContent>{children}</CardContent>
       </Card>
     </WhiteCardStyle>
   );

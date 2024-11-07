@@ -8,7 +8,7 @@ type MomentLabelProps = {
 const MomentLabel = ({ content, time }: MomentLabelProps) => {
   return (
     <>
-      <Text variant="h6" content={content} />
+      <Text variant="h6" content={content} sx={{ fontWeight: "bold" }} />
       <Text variant="subtitle2" content={time} />
     </>
   );
