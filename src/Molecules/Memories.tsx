@@ -5,6 +5,7 @@ import Subcard from "./Subcard";
 import FeaturedMoments from "./FeaturedMoments";
 import MomentLabel from "./MomentLabel";
 import SpecialMoments from "./SpecialMoments";
+import RecentHealthdata from "./RecentHealthdata";
 
 const imageStyle = {
   width: 250,
@@ -53,6 +54,7 @@ const Memories = () => {
       </WhiteCard>
       <FeaturedMoments />
       <SpecialMoments />
+      <RecentHealthdata />
     </div>
   );
 };
