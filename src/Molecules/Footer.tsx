@@ -12,7 +12,7 @@ import ListIcon from "@mui/icons-material/List";
 import SettingsIcon from "@mui/icons-material/Settings";
 
 const FooterStyle = styled(Box)(({ theme }) => ({
-  position: "fixed",
+  position: "sticky",
   bottom: 0,
   left: 0,
   right: 0,

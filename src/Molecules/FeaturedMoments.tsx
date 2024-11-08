@@ -70,7 +70,7 @@ const CardGroup = () => {
 
 const FeaturedMoments = () => {
   return (
-    <div style={{ height: "500px", marginTop: "10px" }}>
+    <>
       <div style={{ display: "flex", justifyContent: "center" }}>
         <div
           style={{
@@ -93,7 +93,7 @@ const FeaturedMoments = () => {
         <CardGroup />
         <CardGroup />
       </div>
-    </div>
+    </>
   );
 };
 

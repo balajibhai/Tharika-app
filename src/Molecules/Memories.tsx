@@ -1,9 +1,10 @@
 import Image from "../Atoms/Image";
 import WhiteCard from "../Atoms/WhiteCard";
 import BestMoments from "./BestMoments";
-import DummySubcard from "./DummySubcard";
+import Subcard from "./Subcard";
 import FeaturedMoments from "./FeaturedMoments";
 import MomentLabel from "./MomentLabel";
+import SpecialMoments from "./SpecialMoments";
 
 const imageStyle = {
   width: 250,
@@ -38,7 +39,7 @@ const Memories = () => {
           }}
         >
           <div style={{ display: "flex", justifyContent: "space-around" }}>
-            <DummySubcard />
+            <Subcard />
             <div>
               <Image imageStyle={imageStyle} />
               <MomentLabel
@@ -51,6 +52,7 @@ const Memories = () => {
         </div>
       </WhiteCard>
       <FeaturedMoments />
+      <SpecialMoments />
     </div>
   );
 };
