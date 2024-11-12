@@ -9,9 +9,10 @@ import {
 import PeopleIcon from "@mui/icons-material/People";
 import { ArrowBack } from "@mui/icons-material";
 import Text from "../Atoms/Text";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { PageNavID } from "../ComponentTypes";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import { ClickHandlerContext } from "../Context";
 
 const HeaderStyle = styled(Box)(({ theme }) => ({
   position: "fixed",
@@ -42,6 +43,7 @@ const RightMostSection = () => {
 
 const Header = (props: HeaderProps) => {
   const { navbuttonClick } = props;
+  const { clickHandler } = useContext(ClickHandlerContext);
   const [headerName, setHeaderName] = useState(PageNavID.HOME);
   const iconStyle = { fontSize: 40, color: "#5A63F0" };
 
@@ -56,7 +58,9 @@ const Header = (props: HeaderProps) => {
           {/* Left Icon */}
           <IconButton edge="start" color="inherit">
             {navbuttonClick === PageNavID.MEMORY ? (
-              <ArrowBack sx={iconStyle} />
+              <div onClick={() => clickHandler(PageNavID.HOME)}>
+                <ArrowBack sx={iconStyle} />
+              </div>
             ) : (
               <PeopleIcon sx={iconStyle} />
             )}
