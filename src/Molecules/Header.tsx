@@ -6,9 +6,12 @@ import {
   styled,
   Box,
 } from "@mui/material";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import PeopleIcon from "@mui/icons-material/People";
+import { ArrowBack } from "@mui/icons-material";
 import Text from "../Atoms/Text";
+import { useEffect, useState } from "react";
+import { PageNavID } from "../ComponentTypes";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 
 const HeaderStyle = styled(Box)(({ theme }) => ({
   position: "fixed",
@@ -18,34 +21,54 @@ const HeaderStyle = styled(Box)(({ theme }) => ({
   zIndex: 1000,
 }));
 
-const Header = () => {
+type HeaderProps = {
+  navbuttonClick: PageNavID;
+};
+
+const RightMostSection = () => {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+      <IconButton color="inherit">
+        <NotificationsNoneIcon sx={{ color: "black" }} />
+      </IconButton>
+      <Avatar
+        alt="Profile Picture"
+        src="https://example.com/path-to-your-image.jpg"
+        sx={{ width: 40, height: 40 }}
+      />
+    </div>
+  );
+};
+
+const Header = (props: HeaderProps) => {
+  const { navbuttonClick } = props;
+  const [headerName, setHeaderName] = useState(PageNavID.HOME);
+  const iconStyle = { fontSize: 40, color: "#5A63F0" };
+
+  useEffect(() => {
+    setHeaderName(navbuttonClick);
+  }, [navbuttonClick]);
+
   return (
     <HeaderStyle>
       <AppBar position="static" sx={{ backgroundColor: "white", paddingY: 1 }}>
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
           {/* Left Icon */}
           <IconButton edge="start" color="inherit">
-            <PeopleIcon sx={{ fontSize: 40, color: "#5A63F0" }} />
+            {navbuttonClick === PageNavID.MEMORY ? (
+              <ArrowBack sx={iconStyle} />
+            ) : (
+              <PeopleIcon sx={iconStyle} />
+            )}
           </IconButton>
 
           {/* Center Title */}
           <Text
             variant="h5"
             sx={{ color: "#5A63F0", fontWeight: "bold" }}
-            content="Home"
+            content={headerName}
           />
-
-          {/* Right Icons */}
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <IconButton color="inherit">
-              <NotificationsNoneIcon sx={{ color: "black" }} />
-            </IconButton>
-            <Avatar
-              alt="Profile Picture"
-              src="https://example.com/path-to-your-image.jpg"
-              sx={{ width: 40, height: 40 }}
-            />
-          </div>
+          {navbuttonClick !== PageNavID.MEMORY && <RightMostSection />}
         </Toolbar>
       </AppBar>
     </HeaderStyle>
