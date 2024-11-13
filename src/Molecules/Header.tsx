@@ -54,17 +54,25 @@ const Header = (props: HeaderProps) => {
   return (
     <HeaderStyle>
       <AppBar position="static" sx={{ backgroundColor: "white", paddingY: 1 }}>
-        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            position: "relative",
+          }}
+        >
           {/* Left Icon */}
-          <IconButton edge="start" color="inherit">
-            {navbuttonClick === PageNavID.MEMORY ? (
-              <div onClick={() => clickHandler(PageNavID.HOME)}>
-                <ArrowBack sx={iconStyle} />
-              </div>
-            ) : (
-              <PeopleIcon sx={iconStyle} />
-            )}
-          </IconButton>
+          <Box sx={{ position: "absolute", left: 0 }}>
+            <IconButton edge="start" color="inherit">
+              {navbuttonClick === PageNavID.MEMORY ? (
+                <div onClick={() => clickHandler(PageNavID.HOME)}>
+                  <ArrowBack sx={iconStyle} />
+                </div>
+              ) : (
+                <PeopleIcon sx={iconStyle} />
+              )}
+            </IconButton>
+          </Box>
 
           {/* Center Title */}
           <Text
@@ -72,7 +80,13 @@ const Header = (props: HeaderProps) => {
             sx={{ color: "#5A63F0", fontWeight: "bold" }}
             content={headerName}
           />
-          {navbuttonClick !== PageNavID.MEMORY && <RightMostSection />}
+
+          {/* Right Section */}
+          {navbuttonClick !== PageNavID.MEMORY && (
+            <Box sx={{ position: "absolute", right: 0 }}>
+              <RightMostSection />
+            </Box>
+          )}
         </Toolbar>
       </AppBar>
     </HeaderStyle>
