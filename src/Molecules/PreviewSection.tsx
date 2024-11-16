@@ -1,15 +1,9 @@
 import { useRef } from "react";
 import ReactPlayer from "react-player";
-import {
-  Box,
-  Typography,
-  Card,
-  CardHeader,
-  CardMedia,
-  IconButton,
-} from "@mui/material";
+import { Box, Card, CardHeader, CardMedia, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { MediaType } from "../ComponentTypes";
+import Text from "../Atoms/Text";
 
 type MediaItem = {
   id: string;
@@ -38,9 +32,7 @@ const PreviewSection = (props: PreviewSectionProps) => {
 
   return (
     <Box sx={{ padding: "20px" }}>
-      <Typography variant="h4" sx={{ marginBottom: "20px" }}>
-        Preview
-      </Typography>
+      <Text content="Preview" variant="h6" sx={{ fontWeight: "bold" }} />
       <Box
         ref={scrollRef}
         sx={{
@@ -62,7 +54,7 @@ const PreviewSection = (props: PreviewSectionProps) => {
             }}
           >
             <CardHeader
-              title="Jenny Watson"
+              title="Name"
               action={
                 <IconButton
                   aria-label="delete"
