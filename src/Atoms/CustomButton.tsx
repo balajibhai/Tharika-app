@@ -5,16 +5,17 @@ import { ClickHandlerContext } from "../Context";
 import { PageNavID } from "../ComponentTypes";
 
 type CustomButtonProps = {
-  icon: keyof typeof ICON_MAP;
+  icon?: keyof typeof ICON_MAP;
   content: string;
 };
 
 const CustomButton = ({ icon, content }: CustomButtonProps) => {
   const { clickHandler } = useContext(ClickHandlerContext);
+  const iconComponent = icon && <Icon icon={icon} />;
   return (
     <Button
       variant="contained"
-      startIcon={<Icon icon={icon} />}
+      startIcon={iconComponent}
       sx={{
         backgroundColor: "#5A63F0", // Matches the purple color
         color: "white",

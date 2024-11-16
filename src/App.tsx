@@ -20,7 +20,9 @@ function App() {
   return (
     <ClickHandlerContext.Provider value={{ clickHandler }}>
       <AppStyle>
-        <Header navbuttonClick={navbuttonClick} />
+        <div>
+          <Header navbuttonClick={navbuttonClick} />
+        </div>
         <Component />
         <Footer />
       </AppStyle>

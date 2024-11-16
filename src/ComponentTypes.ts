@@ -12,3 +12,8 @@ export const PageNavComp = {
   [PageNavID.MEMORY]: AddMemory,
   [PageNavID.HOME]: Home,
 };
+
+export enum MediaType {
+  PHOTO = "photo",
+  VIDEO = "video",
+}

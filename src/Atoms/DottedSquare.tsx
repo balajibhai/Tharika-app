@@ -1,28 +1,39 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Box, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import { MediaType } from "../ComponentTypes";
 
-const DottedSquare = ({
-  icon,
-  label,
-}: {
+type DottedSquareProps = {
   icon: React.ReactNode;
+  onClick?: () => void;
   label: string;
-}) => {
+};
+
+type DottedSquaresProps = {
+  onFileUpload: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    type: MediaType
+  ) => void;
+};
+
+const DottedSquare = (props: DottedSquareProps) => {
+  const { icon, onClick, label } = props;
   return (
     <Box
       sx={{
-        width: 150, // Set width of the square
-        height: 150, // Set height of the square
+        width: 150,
+        height: 150,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        border: "2px dashed #5A63F0", // Dotted border color and thickness
-        borderRadius: "8px", // Slight border radius
-        margin: "10px", // Spacing between the squares
+        border: "2px dashed #5A63F0",
+        borderRadius: "8px",
+        margin: "10px",
+        cursor: "pointer",
       }}
+      onClick={onClick}
     >
       {icon}
       <Typography variant="body1" sx={{ marginTop: 1 }}>
@@ -32,16 +43,44 @@ const DottedSquare = ({
   );
 };
 
-const DottedSquares = () => {
+const DottedSquares = (props: DottedSquaresProps) => {
+  const { onFileUpload } = props;
+  const inputFileRef = useRef<HTMLInputElement | null>(null);
+
+  const handlePhotoClick = () => {
+    if (inputFileRef.current) {
+      inputFileRef.current.accept = "image/*";
+      inputFileRef.current.click();
+    }
+  };
+
+  const handleVideoClick = () => {
+    if (inputFileRef.current) {
+      inputFileRef.current.accept = "video/*";
+      inputFileRef.current.click();
+    }
+  };
+
   return (
     <Box sx={{ display: "flex", justifyContent: "center" }}>
       <DottedSquare
         icon={<AddIcon sx={{ fontSize: 40, color: "#5A63F0" }} />}
         label="Upload Photo"
+        onClick={handlePhotoClick}
       />
       <DottedSquare
         icon={<CameraAltIcon sx={{ fontSize: 40, color: "#5A63F0" }} />}
-        label="Camera"
+        label="Upload Video"
+        onClick={handleVideoClick}
+      />
+      <input
+        style={{ display: "none" }}
+        ref={inputFileRef}
+        type="file"
+        onChange={(event) => {
+          const isPhoto = inputFileRef.current?.accept === "image/*";
+          onFileUpload(event, isPhoto ? MediaType.PHOTO : MediaType.VIDEO);
+        }}
       />
     </Box>
   );
