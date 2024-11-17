@@ -17,3 +17,20 @@ export enum MediaType {
   PHOTO = "photo",
   VIDEO = "video",
 }
+
+export enum DurationEnumType {
+  TIME = "Time",
+  DATE = "Date",
+}
+
+export const DurationType = {
+  Date: "",
+  Time: "",
+};
+
+export interface MediaItem {
+  id: string;
+  type: MediaType;
+  url: string;
+  duration: typeof DurationType;
+}

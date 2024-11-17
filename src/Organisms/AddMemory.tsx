@@ -3,13 +3,8 @@ import DottedSquares from "../Atoms/DottedSquare";
 import Text from "../Atoms/Text";
 import DateTimePicker from "../Molecules/DateTimePicker";
 import PreviewSection from "../Molecules/PreviewSection";
-import { MediaType } from "../ComponentTypes";
-
-interface MediaItem {
-  id: string;
-  url: string;
-  type: MediaType;
-}
+import { DurationType, MediaItem, MediaType } from "../ComponentTypes";
+import { PreviewContext } from "../Context";
 
 const AddMemory = () => {
   const [mediaList, setMediaList] = useState<MediaItem[]>([]);
@@ -24,6 +19,10 @@ const AddMemory = () => {
         id: file.name,
         type,
         url: URL.createObjectURL(file),
+        duration: {
+          Date: "",
+          Time: "",
+        },
       }));
       setMediaList((prev) => [...prev, ...newMedia]);
     }
@@ -31,6 +30,11 @@ const AddMemory = () => {
 
   const handleDelete = (id: string) => {
     setMediaList((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  const handleDuration = (value: typeof DurationType) => {
+    mediaList[mediaList.length - 1].duration = value;
+    setMediaList([...mediaList]);
   };
 
   return (
@@ -42,7 +46,9 @@ const AddMemory = () => {
         paddingTop: "100px",
       }}
     >
-      <PreviewSection mediaList={mediaList} handleDelete={handleDelete} />
+      <PreviewContext.Provider value={{ handleDelete }}>
+        <PreviewSection mediaList={mediaList} />
+      </PreviewContext.Provider>
       <div
         style={{
           display: "flex",
@@ -60,7 +66,7 @@ const AddMemory = () => {
       <div>
         <DottedSquares onFileUpload={handleFileUpload} />
       </div>
-      <DateTimePicker />
+      <DateTimePicker handleDuration={handleDuration} />
     </div>
   );
 };

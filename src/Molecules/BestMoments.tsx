@@ -1,7 +1,10 @@
+import { useContext } from "react";
 import CustomButton from "../Atoms/CustomButton";
 import Image from "../Atoms/Image";
 import Text from "../Atoms/Text";
 import MomentLabel from "./MomentLabel";
+import { ClickHandlerContext } from "../Context";
+import { PageNavID } from "../ComponentTypes";
 
 const imageStyle = {
   width: 542,
@@ -10,6 +13,7 @@ const imageStyle = {
 };
 
 const BestMoments = () => {
+  const { clickHandler } = useContext(ClickHandlerContext);
   return (
     <div>
       <Text content="Best Moments" variant="h6" sx={{ fontWeight: "bold" }} />
@@ -19,7 +23,11 @@ const BestMoments = () => {
           <MomentLabel content="Joyful Moments" time="350 Photos . Oct 2024" />
         </div>
         <div>
-          <CustomButton content="Add New Memory" icon={"AddIcon"} />
+          <CustomButton
+            content="Add New Memory"
+            icon={"AddIcon"}
+            onClick={() => clickHandler(PageNavID.MEMORY)}
+          />
         </div>
       </div>
     </div>

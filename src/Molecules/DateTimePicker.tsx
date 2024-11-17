@@ -3,9 +3,18 @@ import { TextField, Box, MenuItem, InputAdornment } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import CustomButton from "../Atoms/CustomButton";
+import { DurationEnumType, DurationType } from "../ComponentTypes";
 
-function DateTimePicker() {
-  const [time, setTime] = useState<string>("06:00PM");
+type DateTimePickerProps = {
+  handleDuration: (value: typeof DurationType) => void;
+};
+
+const DateTimePicker = (props: DateTimePickerProps) => {
+  const { handleDuration } = props;
+  const [dateTime, setDateTime] = useState<typeof DurationType>({
+    Date: "01/01/01",
+    Time: "6:00AM",
+  });
 
   const times = [
     "06:00AM",
@@ -26,8 +35,18 @@ function DateTimePicker() {
     "09:00PM",
   ];
 
-  const handleTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTime(event.target.value);
+  const handleDateTimeChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    type: DurationEnumType
+  ) => {
+    setDateTime({
+      ...dateTime,
+      [type]: event.target.value,
+    });
+  };
+
+  const onSave = () => {
+    handleDuration(dateTime);
   };
 
   return (
@@ -44,6 +63,7 @@ function DateTimePicker() {
       <TextField
         label="Select Date"
         placeholder="DD/MM/YYYY"
+        onChange={(e) => handleDateTimeChange(e, DurationEnumType.DATE)}
         slotProps={{
           input: {
             startAdornment: (
@@ -59,8 +79,8 @@ function DateTimePicker() {
 
       <TextField
         label="Select Time"
-        value={time}
-        onChange={handleTimeChange}
+        value={dateTime.Time}
+        onChange={(e) => handleDateTimeChange(e, DurationEnumType.TIME)}
         slotProps={{
           input: {
             startAdornment: (
@@ -81,9 +101,9 @@ function DateTimePicker() {
         ))}
       </TextField>
 
-      <CustomButton content="Save" />
+      <CustomButton content="Save" onClick={onSave} />
     </Box>
   );
-}
+};
 
 export default DateTimePicker;

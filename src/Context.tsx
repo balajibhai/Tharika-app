@@ -8,3 +8,7 @@ type ClickHandlerContextProps = {
 export const ClickHandlerContext = createContext<ClickHandlerContextProps>({
   clickHandler: () => {},
 });
+
+export const PreviewContext = createContext({
+  handleDelete: (id: string) => {},
+});

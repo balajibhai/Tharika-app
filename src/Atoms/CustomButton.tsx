@@ -1,16 +1,13 @@
 import { Button } from "@mui/material";
 import Icon, { ICON_MAP } from "./Icon";
-import { useContext } from "react";
-import { ClickHandlerContext } from "../Context";
-import { PageNavID } from "../ComponentTypes";
 
 type CustomButtonProps = {
   icon?: keyof typeof ICON_MAP;
   content: string;
+  onClick: () => void;
 };
 
-const CustomButton = ({ icon, content }: CustomButtonProps) => {
-  const { clickHandler } = useContext(ClickHandlerContext);
+const CustomButton = ({ icon, content, onClick }: CustomButtonProps) => {
   const iconComponent = icon && <Icon icon={icon} />;
   return (
     <Button
@@ -25,7 +22,7 @@ const CustomButton = ({ icon, content }: CustomButtonProps) => {
         textTransform: "none", // Keeps text capitalization as in the image
         fontWeight: "bold",
       }}
-      onClick={() => clickHandler(PageNavID.MEMORY)}
+      onClick={onClick}
     >
       {content}
     </Button>
