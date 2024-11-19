@@ -7,10 +7,11 @@ import { DurationEnumType, DurationType } from "../ComponentTypes";
 
 type DateTimePickerProps = {
   handleDuration: (value: typeof DurationType) => void;
+  buttonDisable: boolean;
 };
 
 const DateTimePicker = (props: DateTimePickerProps) => {
-  const { handleDuration } = props;
+  const { handleDuration, buttonDisable } = props;
   const [dateTime, setDateTime] = useState<typeof DurationType>({
     Date: "01/01/01",
     Time: "6:00AM",
@@ -101,7 +102,7 @@ const DateTimePicker = (props: DateTimePickerProps) => {
         ))}
       </TextField>
 
-      <CustomButton content="Save" onClick={onSave} />
+      <CustomButton content="Save" onClick={onSave} disabled={buttonDisable} />
     </Box>
   );
 };

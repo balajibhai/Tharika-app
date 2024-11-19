@@ -80,6 +80,11 @@ const DottedSquares = (props: DottedSquaresProps) => {
         onChange={(event) => {
           const isPhoto = inputFileRef.current?.accept === "image/*";
           onFileUpload(event, isPhoto ? MediaType.PHOTO : MediaType.VIDEO);
+
+          // **Reset the input's value here**
+          if (inputFileRef.current) {
+            inputFileRef.current.value = "";
+          }
         }}
       />
     </Box>

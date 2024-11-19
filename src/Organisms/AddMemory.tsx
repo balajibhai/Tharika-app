@@ -1,13 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DottedSquares from "../Atoms/DottedSquare";
 import Text from "../Atoms/Text";
 import DateTimePicker from "../Molecules/DateTimePicker";
 import PreviewSection from "../Molecules/PreviewSection";
 import { DurationType, MediaItem, MediaType } from "../ComponentTypes";
 import { PreviewContext } from "../Context";
+import CustomButton from "../Atoms/CustomButton";
 
 const AddMemory = () => {
   const [mediaList, setMediaList] = useState<MediaItem[]>([]);
+  const [saveButtonclick, setSaveButtonclick] = useState<boolean>(false);
+  const showUploadButton = mediaList.length > 0 && saveButtonclick;
+
+  useEffect(() => {
+    if (mediaList.length === 0) {
+      setSaveButtonclick(false);
+    }
+  }, [mediaList.length]);
 
   const handleFileUpload = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -35,6 +44,7 @@ const AddMemory = () => {
   const handleDuration = (value: typeof DurationType) => {
     mediaList[mediaList.length - 1].duration = value;
     setMediaList([...mediaList]);
+    setSaveButtonclick(true);
   };
 
   return (
@@ -49,6 +59,11 @@ const AddMemory = () => {
       <PreviewContext.Provider value={{ handleDelete }}>
         <PreviewSection mediaList={mediaList} />
       </PreviewContext.Provider>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        {showUploadButton && (
+          <CustomButton content="Upload" onClick={() => null} />
+        )}
+      </div>
       <div
         style={{
           display: "flex",
@@ -66,7 +81,10 @@ const AddMemory = () => {
       <div>
         <DottedSquares onFileUpload={handleFileUpload} />
       </div>
-      <DateTimePicker handleDuration={handleDuration} />
+      <DateTimePicker
+        handleDuration={handleDuration}
+        buttonDisable={mediaList.length === 0}
+      />
     </div>
   );
 };

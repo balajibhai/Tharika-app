@@ -5,9 +5,15 @@ type CustomButtonProps = {
   icon?: keyof typeof ICON_MAP;
   content: string;
   onClick: () => void;
+  disabled?: boolean;
 };
 
-const CustomButton = ({ icon, content, onClick }: CustomButtonProps) => {
+const CustomButton = ({
+  icon,
+  content,
+  onClick,
+  disabled,
+}: CustomButtonProps) => {
   const iconComponent = icon && <Icon icon={icon} />;
   return (
     <Button
@@ -23,6 +29,7 @@ const CustomButton = ({ icon, content, onClick }: CustomButtonProps) => {
         fontWeight: "bold",
       }}
       onClick={onClick}
+      disabled={disabled}
     >
       {content}
     </Button>
