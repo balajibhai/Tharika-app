@@ -6,19 +6,26 @@ import PreviewSection from "../Molecules/PreviewSection";
 import { DurationType, MediaItem, MediaType } from "../ComponentTypes";
 import { PreviewContext } from "../Context";
 import CustomButton from "../Atoms/CustomButton";
+import SuccessNotification from "../Atoms/SuccessNotification";
 
 const AddMemory = () => {
   const [mediaList, setMediaList] = useState<MediaItem[]>([]);
   const [saveButtonclick, setSaveButtonclick] = useState<boolean>(false);
-  const showUploadButton = mediaList.length > 0 && saveButtonclick;
+  const [showUploadButton, setShowUploadButton] = useState(false);
+  const [showSuccessNotification, setShowSuccessNotification] = useState(false);
 
   useEffect(() => {
     if (mediaList.length === 0) {
       setSaveButtonclick(false);
     }
-  }, [mediaList.length]);
+    if (mediaList.length > 0 && saveButtonclick) {
+      setShowUploadButton(true);
+    } else {
+      setShowUploadButton(false);
+    }
+  }, [mediaList.length, saveButtonclick]);
 
-  const handleFileUpload = (
+  const handleFilePreview = (
     event: React.ChangeEvent<HTMLInputElement>,
     type: MediaType
   ) => {
@@ -47,6 +54,15 @@ const AddMemory = () => {
     setSaveButtonclick(true);
   };
 
+  const handleFileUpload = () => {
+    setShowSuccessNotification(true);
+    setShowUploadButton(false);
+  };
+
+  const onNotificationClose = () => {
+    setShowSuccessNotification(false);
+  };
+
   return (
     <div
       style={{
@@ -56,14 +72,20 @@ const AddMemory = () => {
         paddingTop: "100px",
       }}
     >
-      <PreviewContext.Provider value={{ handleDelete }}>
-        <PreviewSection mediaList={mediaList} />
-      </PreviewContext.Provider>
+      {showUploadButton && (
+        <PreviewContext.Provider value={{ handleDelete }}>
+          <PreviewSection mediaList={mediaList} />
+        </PreviewContext.Provider>
+      )}
       <div style={{ display: "flex", justifyContent: "center" }}>
         {showUploadButton && (
-          <CustomButton content="Upload" onClick={() => null} />
+          <CustomButton content="Upload" onClick={handleFileUpload} />
         )}
       </div>
+      <SuccessNotification
+        onNotificationClose={onNotificationClose}
+        showSuccessNotification={showSuccessNotification}
+      />
       <div
         style={{
           display: "flex",
@@ -79,7 +101,7 @@ const AddMemory = () => {
         </div>
       </div>
       <div>
-        <DottedSquares onFileUpload={handleFileUpload} />
+        <DottedSquares onFilePreview={handleFilePreview} />
       </div>
       <DateTimePicker
         handleDuration={handleDuration}

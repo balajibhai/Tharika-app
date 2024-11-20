@@ -11,7 +11,7 @@ type DottedSquareProps = {
 };
 
 type DottedSquaresProps = {
-  onFileUpload: (
+  onFilePreview: (
     event: React.ChangeEvent<HTMLInputElement>,
     type: MediaType
   ) => void;
@@ -44,7 +44,7 @@ const DottedSquare = (props: DottedSquareProps) => {
 };
 
 const DottedSquares = (props: DottedSquaresProps) => {
-  const { onFileUpload } = props;
+  const { onFilePreview } = props;
   const inputFileRef = useRef<HTMLInputElement | null>(null);
 
   const handlePhotoClick = () => {
@@ -79,7 +79,7 @@ const DottedSquares = (props: DottedSquaresProps) => {
         type="file"
         onChange={(event) => {
           const isPhoto = inputFileRef.current?.accept === "image/*";
-          onFileUpload(event, isPhoto ? MediaType.PHOTO : MediaType.VIDEO);
+          onFilePreview(event, isPhoto ? MediaType.PHOTO : MediaType.VIDEO);
 
           // **Reset the input's value here**
           if (inputFileRef.current) {

@@ -24,7 +24,6 @@ function App() {
           <Header navbuttonClick={navbuttonClick} />
         </div>
         <Component />
-        <div></div> {/* Check this div later, to do  */}
         <Footer />
       </AppStyle>
     </ClickHandlerContext.Provider>
