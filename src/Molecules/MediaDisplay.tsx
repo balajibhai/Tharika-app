@@ -4,12 +4,12 @@ import { MediaItem } from "../ComponentTypes";
 import Text from "../Atoms/Text";
 import ShowPreview from "./ShowPreview";
 
-type PreviewSectionProps = {
-  previewMediaList: MediaItem[];
+type MediaDisplayProps = {
+  listOfMedia: MediaItem[];
 };
 
-const PreviewSection = (props: PreviewSectionProps) => {
-  const { previewMediaList } = props;
+const MediaDisplay = (props: MediaDisplayProps) => {
+  const { listOfMedia } = props;
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   return (
@@ -25,7 +25,7 @@ const PreviewSection = (props: PreviewSectionProps) => {
           borderRadius: "5px",
         }}
       >
-        {previewMediaList.map(
+        {listOfMedia.map(
           (item) =>
             item.duration.Time && (
               <ShowPreview scrollRef={scrollRef} item={item} />
@@ -36,4 +36,4 @@ const PreviewSection = (props: PreviewSectionProps) => {
   );
 };
 
-export default PreviewSection;
+export default MediaDisplay;

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import DottedSquares from "../Atoms/DottedSquare";
 import Text from "../Atoms/Text";
 import DateTimePicker from "../Molecules/DateTimePicker";
-import PreviewSection from "../Molecules/PreviewSection";
+import MediaDisplay from "../Molecules/MediaDisplay";
 import { DurationType, MediaItem, MediaType } from "../ComponentTypes";
-import { PreviewContext } from "../Context";
+import { ClickHandlerContext, PreviewContext } from "../Context";
 import CustomButton from "../Atoms/CustomButton";
 import SuccessNotification from "../Atoms/SuccessNotification";
 
@@ -13,6 +13,7 @@ const AddMemory = () => {
   const [saveButtonclick, setSaveButtonclick] = useState<boolean>(false);
   const [showUploadButton, setShowUploadButton] = useState(false);
   const [showSuccessNotification, setShowSuccessNotification] = useState(false);
+  const { handleMediaUpload } = useContext(ClickHandlerContext);
 
   useEffect(() => {
     if (previewMediaList.length === 0) {
@@ -57,6 +58,8 @@ const AddMemory = () => {
   const handleFileUpload = () => {
     setShowSuccessNotification(true);
     setShowUploadButton(false);
+    handleMediaUpload(previewMediaList);
+    setPreviewMediaList([]);
   };
 
   const onNotificationClose = () => {
@@ -74,7 +77,7 @@ const AddMemory = () => {
     >
       {showUploadButton && (
         <PreviewContext.Provider value={{ handleDelete }}>
-          <PreviewSection previewMediaList={previewMediaList} />
+          <MediaDisplay listOfMedia={previewMediaList} />
         </PreviewContext.Provider>
       )}
       <div style={{ display: "flex", justifyContent: "center" }}>

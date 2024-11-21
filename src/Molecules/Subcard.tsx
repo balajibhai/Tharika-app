@@ -46,6 +46,7 @@ const Subcard = () => {
       <MediaContainer
         showMediaContainer={showMediaContainer}
         onClose={onCloseViewAllMedia}
+        title="All media"
       />
     </LightBorderCard>
   );

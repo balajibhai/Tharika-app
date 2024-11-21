@@ -1,9 +1,5 @@
 import * as React from "react";
 import Dialog from "@mui/material/Dialog";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemButton from "@mui/material/ListItemButton";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -11,10 +7,13 @@ import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
+import DialogContent from "@mui/material/DialogContent";
+import { ClickHandlerContext } from "../Context";
+import MediaDisplay from "./MediaDisplay";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
-    children: React.ReactElement<unknown>;
+    children: React.ReactElement;
   },
   ref: React.Ref<unknown>
 ) {
@@ -24,17 +23,28 @@ const Transition = React.forwardRef(function Transition(
 type MediaContainerProps = {
   showMediaContainer: boolean;
   onClose: () => void;
+  title: string;
 };
 
-const MediaContainer = (props: MediaContainerProps) => {
-  const { showMediaContainer, onClose } = props;
+const MediaContainer: React.FC<MediaContainerProps> = ({
+  showMediaContainer,
+  onClose,
+  title,
+}) => {
+  const { mediaList } = React.useContext(ClickHandlerContext);
   const [open, setOpen] = React.useState(showMediaContainer);
 
   React.useEffect(() => {
     setOpen(showMediaContainer);
   }, [showMediaContainer]);
 
-  const handleClose = () => {
+  const handleDialogClose = (
+    event: object,
+    reason: "backdropClick" | "escapeKeyDown"
+  ) => {
+    if (reason === "backdropClick" || reason === "escapeKeyDown") {
+      return;
+    }
     onClose();
   };
 
@@ -43,36 +53,33 @@ const MediaContainer = (props: MediaContainerProps) => {
       <Dialog
         fullScreen
         open={open}
-        onClose={handleClose}
+        onClose={handleDialogClose}
         TransitionComponent={Transition}
+        disableEscapeKeyDown
+        PaperProps={{
+          onClick: (event: React.MouseEvent<HTMLDivElement>) => {
+            event.stopPropagation();
+          },
+        }}
       >
         <AppBar sx={{ position: "relative" }}>
           <Toolbar>
             <IconButton
               edge="start"
               color="inherit"
-              onClick={handleClose}
+              onClick={onClose}
               aria-label="close"
             >
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Media
+              {title}
             </Typography>
           </Toolbar>
         </AppBar>
-        <List>
-          <ListItemButton>
-            <ListItemText primary="Phone ringtone" secondary="Titania" />
-          </ListItemButton>
-          <Divider />
-          <ListItemButton>
-            <ListItemText
-              primary="Default notification ringtone"
-              secondary="Tethys"
-            />
-          </ListItemButton>
-        </List>
+        <DialogContent>
+          <MediaDisplay listOfMedia={mediaList} />
+        </DialogContent>
       </Dialog>
     </React.Fragment>
   );
