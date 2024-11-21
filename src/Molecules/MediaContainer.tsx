@@ -79,11 +79,13 @@ const MediaContainer: React.FC<MediaContainerProps> = ({
           </Toolbar>
         </AppBar>
         <DialogContent>
-          <MediaDisplay
-            listOfMedia={mediaList}
-            sectionName=""
-            setMediaList={setUploadMediaList}
-          />
+          {mediaList.length > 0 && (
+            <MediaDisplay
+              listOfMedia={mediaList}
+              sectionName=""
+              setMediaList={setUploadMediaList}
+            />
+          )}
         </DialogContent>
       </Dialog>
     </React.Fragment>

@@ -14,7 +14,7 @@ const DateTimePicker = (props: DateTimePickerProps) => {
   const { handleDuration, buttonDisable } = props;
   const [dateTime, setDateTime] = useState<typeof DurationType>({
     Date: "01/01/01",
-    Time: "6:00AM",
+    Time: "06:00AM",
   });
 
   const times = [
@@ -76,6 +76,7 @@ const DateTimePicker = (props: DateTimePickerProps) => {
         }}
         variant="outlined"
         fullWidth
+        value={dateTime.Date}
       />
 
       <TextField
