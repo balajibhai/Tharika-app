@@ -1,5 +1,7 @@
+import { useState } from "react";
 import Image from "../Atoms/Image";
 import LightBorderCard from "../Atoms/LightBorderCard";
+import MediaContainer from "./MediaContainer";
 
 const imageStyle = {
   width: 80,
@@ -11,11 +13,19 @@ const imageStyle = {
 const borderCardStyle = {
   width: 200,
   height: 200,
+  cursor: "pointer",
 };
 
 const Subcard = () => {
+  const [showMediaContainer, setShowMediaContainer] = useState(false);
+  const clickViewAllMedia = () => {
+    setShowMediaContainer(!showMediaContainer);
+  };
+  const onCloseViewAllMedia = () => {
+    setShowMediaContainer(!showMediaContainer);
+  };
   return (
-    <LightBorderCard sx={borderCardStyle}>
+    <LightBorderCard sx={borderCardStyle} onClick={clickViewAllMedia}>
       <div
         style={{
           display: "flex",
@@ -33,6 +43,10 @@ const Subcard = () => {
           <Image imageStyle={imageStyle} />
         </div>
       </div>
+      <MediaContainer
+        showMediaContainer={showMediaContainer}
+        onClose={onCloseViewAllMedia}
+      />
     </LightBorderCard>
   );
 };

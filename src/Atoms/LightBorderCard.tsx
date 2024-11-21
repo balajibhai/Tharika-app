@@ -10,10 +10,16 @@ const LightBorderCardStyle = styled(Box)(({ theme }) => ({
 type LightBorderCardProps = {
   children: React.ReactNode;
   sx?: SxProps<Theme>;
+  onClick?: () => void;
 };
 
-const LightBorderCard = ({ children, sx }: LightBorderCardProps) => {
-  return <LightBorderCardStyle sx={sx}>{children}</LightBorderCardStyle>;
+const LightBorderCard = (props: LightBorderCardProps) => {
+  const { children, onClick, sx } = props;
+  return (
+    <LightBorderCardStyle sx={sx} onClick={onClick}>
+      {children}
+    </LightBorderCardStyle>
+  );
 };
 
 export default LightBorderCard;

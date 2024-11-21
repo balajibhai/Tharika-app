@@ -9,21 +9,21 @@ import CustomButton from "../Atoms/CustomButton";
 import SuccessNotification from "../Atoms/SuccessNotification";
 
 const AddMemory = () => {
-  const [mediaList, setMediaList] = useState<MediaItem[]>([]);
+  const [previewMediaList, setPreviewMediaList] = useState<MediaItem[]>([]);
   const [saveButtonclick, setSaveButtonclick] = useState<boolean>(false);
   const [showUploadButton, setShowUploadButton] = useState(false);
   const [showSuccessNotification, setShowSuccessNotification] = useState(false);
 
   useEffect(() => {
-    if (mediaList.length === 0) {
+    if (previewMediaList.length === 0) {
       setSaveButtonclick(false);
     }
-    if (mediaList.length > 0 && saveButtonclick) {
+    if (previewMediaList.length > 0 && saveButtonclick) {
       setShowUploadButton(true);
     } else {
       setShowUploadButton(false);
     }
-  }, [mediaList.length, saveButtonclick]);
+  }, [previewMediaList.length, saveButtonclick]);
 
   const handleFilePreview = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -40,17 +40,17 @@ const AddMemory = () => {
           Time: "",
         },
       }));
-      setMediaList((prev) => [...prev, ...newMedia]);
+      setPreviewMediaList((prev) => [...prev, ...newMedia]);
     }
   };
 
   const handleDelete = (id: string) => {
-    setMediaList((prev) => prev.filter((item) => item.id !== id));
+    setPreviewMediaList((prev) => prev.filter((item) => item.id !== id));
   };
 
   const handleDuration = (value: typeof DurationType) => {
-    mediaList[mediaList.length - 1].duration = value;
-    setMediaList([...mediaList]);
+    previewMediaList[previewMediaList.length - 1].duration = value;
+    setPreviewMediaList([...previewMediaList]);
     setSaveButtonclick(true);
   };
 
@@ -74,7 +74,7 @@ const AddMemory = () => {
     >
       {showUploadButton && (
         <PreviewContext.Provider value={{ handleDelete }}>
-          <PreviewSection mediaList={mediaList} />
+          <PreviewSection previewMediaList={previewMediaList} />
         </PreviewContext.Provider>
       )}
       <div style={{ display: "flex", justifyContent: "center" }}>
@@ -105,7 +105,7 @@ const AddMemory = () => {
       </div>
       <DateTimePicker
         handleDuration={handleDuration}
-        buttonDisable={mediaList.length === 0}
+        buttonDisable={previewMediaList.length === 0}
       />
     </div>
   );
