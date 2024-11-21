@@ -31,7 +31,8 @@ const MediaContainer: React.FC<MediaContainerProps> = ({
   onClose,
   title,
 }) => {
-  const { mediaList } = React.useContext(ClickHandlerContext);
+  const { mediaList, setUploadMediaList } =
+    React.useContext(ClickHandlerContext);
   const [open, setOpen] = React.useState(showMediaContainer);
 
   React.useEffect(() => {
@@ -78,7 +79,11 @@ const MediaContainer: React.FC<MediaContainerProps> = ({
           </Toolbar>
         </AppBar>
         <DialogContent>
-          <MediaDisplay listOfMedia={mediaList} />
+          <MediaDisplay
+            listOfMedia={mediaList}
+            sectionName=""
+            setMediaList={setUploadMediaList}
+          />
         </DialogContent>
       </Dialog>
     </React.Fragment>

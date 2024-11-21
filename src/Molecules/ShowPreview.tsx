@@ -2,17 +2,16 @@ import { MediaItem, MediaType } from "../ComponentTypes";
 import { Box, Card, CardHeader, CardMedia, IconButton } from "@mui/material";
 import ReactPlayer from "react-player";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { RefObject, useContext } from "react";
-import { PreviewContext } from "../Context";
+import { RefObject } from "react";
 
 type ShowPreviewProps = {
   scrollRef: RefObject<HTMLDivElement>;
   item: MediaItem;
+  handleDelete: (id: string) => void;
 };
 
 const ShowPreview = (props: ShowPreviewProps) => {
-  const { handleDelete } = useContext(PreviewContext);
-  const { item, scrollRef } = props;
+  const { item, scrollRef, handleDelete } = props;
   const isInView = (element: HTMLDivElement | null): boolean => {
     if (!element) return false;
     const bounding = element.getBoundingClientRect();
@@ -22,6 +21,7 @@ const ShowPreview = (props: ShowPreviewProps) => {
         (window.innerHeight || document.documentElement.clientHeight)
     );
   };
+
   return (
     <Card
       key={item.id}

@@ -13,18 +13,18 @@ const AppStyle = styled(Box)(({ theme }) => ({
 
 function App() {
   const [navbuttonClick, setNavbuttonClick] = useState(PageNavID.HOME);
-  const [mediaList, setMediaList] = useState<MediaItem[]>([]);
+  const [mediaList, setUploadMediaList] = useState<MediaItem[]>([]);
 
   const clickHandler = (value: PageNavID) => {
     setNavbuttonClick(value);
   };
   const handleMediaUpload = (value: MediaItem[]) => {
-    setMediaList([...mediaList, ...value]);
+    setUploadMediaList([...mediaList, ...value]);
   };
   const Component = PageNavComp[navbuttonClick as keyof typeof PageNavComp];
   return (
     <ClickHandlerContext.Provider
-      value={{ clickHandler, handleMediaUpload, mediaList }}
+      value={{ clickHandler, handleMediaUpload, mediaList, setUploadMediaList }}
     >
       <AppStyle>
         <div>

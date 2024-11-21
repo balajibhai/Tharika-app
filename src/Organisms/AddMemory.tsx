@@ -4,7 +4,7 @@ import Text from "../Atoms/Text";
 import DateTimePicker from "../Molecules/DateTimePicker";
 import MediaDisplay from "../Molecules/MediaDisplay";
 import { DurationType, MediaItem, MediaType } from "../ComponentTypes";
-import { ClickHandlerContext, PreviewContext } from "../Context";
+import { ClickHandlerContext } from "../Context";
 import CustomButton from "../Atoms/CustomButton";
 import SuccessNotification from "../Atoms/SuccessNotification";
 
@@ -45,10 +45,6 @@ const AddMemory = () => {
     }
   };
 
-  const handleDelete = (id: string) => {
-    setPreviewMediaList((prev) => prev.filter((item) => item.id !== id));
-  };
-
   const handleDuration = (value: typeof DurationType) => {
     previewMediaList[previewMediaList.length - 1].duration = value;
     setPreviewMediaList([...previewMediaList]);
@@ -76,9 +72,11 @@ const AddMemory = () => {
       }}
     >
       {showUploadButton && (
-        <PreviewContext.Provider value={{ handleDelete }}>
-          <MediaDisplay listOfMedia={previewMediaList} />
-        </PreviewContext.Provider>
+        <MediaDisplay
+          listOfMedia={previewMediaList}
+          sectionName="Preview"
+          setMediaList={setPreviewMediaList}
+        />
       )}
       <div style={{ display: "flex", justifyContent: "center" }}>
         {showUploadButton && (
