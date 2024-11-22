@@ -16,6 +16,7 @@ const AddMemory = () => {
   const [showUploadButton, setShowUploadButton] = useState(false);
   const [showSuccessNotification, setShowSuccessNotification] = useState(false);
   const [openUploadLocation, setOpenUploadLocation] = useState(false);
+  const [currentProfile, setCurrentProfile] = useState("");
   const { handleMediaUpload } = useContext(ClickHandlerContext);
 
   useEffect(() => {
@@ -37,6 +38,7 @@ const AddMemory = () => {
     if (files) {
       const newMedia: MediaItem[] = Array.from(files).map((file) => ({
         id: file.name,
+        name: "",
         type,
         url: URL.createObjectURL(file),
         duration: {
@@ -50,6 +52,7 @@ const AddMemory = () => {
 
   const handleDuration = (value: typeof DurationType) => {
     previewMediaList[previewMediaList.length - 1].duration = value;
+    previewMediaList[previewMediaList.length - 1].name = currentProfile;
     setPreviewMediaList([...previewMediaList]);
     setSaveButtonclick(true);
   };
@@ -68,6 +71,10 @@ const AddMemory = () => {
 
   const selectLocation = () => {
     setOpenUploadLocation(!openUploadLocation);
+  };
+
+  const handleProfileSelection = (profile: string) => {
+    setCurrentProfile(profile);
   };
 
   return (
@@ -112,7 +119,7 @@ const AddMemory = () => {
       <div>
         <DottedSquares onFilePreview={handleFilePreview} />
       </div>
-      <ProfileSelector />
+      <ProfileSelector onSelection={handleProfileSelection} />
       <DateTimePicker
         handleDuration={handleDuration}
         buttonDisable={previewMediaList.length === 0}

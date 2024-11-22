@@ -11,10 +11,15 @@ interface Profile {
 
 const borderCardStyle = {
   padding: "20px",
-  width: "300px",
+  width: "265px",
 };
 
-const ProfileSelector: React.FC = () => {
+type ProfileSelectorProps = {
+  onSelection: (profile: string) => void;
+};
+
+const ProfileSelector = (props: ProfileSelectorProps) => {
+  const { onSelection } = props;
   const [profiles, setProfiles] = useState<Profile[]>([
     { id: 1, name: "Jenny" },
     { id: 2, name: "Jacob" },
@@ -28,6 +33,11 @@ const ProfileSelector: React.FC = () => {
   const handleAddProfile = (name: string) => {
     setProfiles([...profiles, { id: Date.now(), name }]);
     setIsAddingMember(false);
+  };
+
+  const profileCardClick = (id: number | null, name: string) => {
+    setActiveProfile(id);
+    onSelection(name);
   };
 
   return (
@@ -44,7 +54,7 @@ const ProfileSelector: React.FC = () => {
               key={profile.id}
               name={profile.name}
               isActive={activeProfile === profile.id}
-              onClick={() => setActiveProfile(profile.id)}
+              onClick={() => profileCardClick(profile.id, profile.name)}
             />
           ))}
           <ProfileCard

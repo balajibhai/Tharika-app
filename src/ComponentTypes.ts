@@ -30,6 +30,7 @@ export const DurationType = {
 
 export interface MediaItem {
   id: string;
+  name: string;
   type: MediaType;
   url: string;
   duration: typeof DurationType;

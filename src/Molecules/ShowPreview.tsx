@@ -33,7 +33,7 @@ const ShowPreview = (props: ShowPreviewProps) => {
       }}
     >
       <CardHeader
-        title={`Name ${item.duration.Date}  ${item.duration.Time}`}
+        title={`${item.name} ${item.duration.Date}  ${item.duration.Time}`}
         action={
           <IconButton aria-label="delete" onClick={() => handleDelete(item.id)}>
             <DeleteIcon />
