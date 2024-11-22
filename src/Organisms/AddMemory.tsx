@@ -8,6 +8,7 @@ import { ClickHandlerContext } from "../Context";
 import CustomButton from "../Atoms/CustomButton";
 import SuccessNotification from "../Atoms/SuccessNotification";
 import UploadLocationSelector from "../Molecules/UploadLocationSelector";
+import ProfileSelector from "./ProfileSelector";
 
 const AddMemory = () => {
   const [previewMediaList, setPreviewMediaList] = useState<MediaItem[]>([]);
@@ -111,6 +112,7 @@ const AddMemory = () => {
       <div>
         <DottedSquares onFilePreview={handleFilePreview} />
       </div>
+      <ProfileSelector />
       <DateTimePicker
         handleDuration={handleDuration}
         buttonDisable={previewMediaList.length === 0}
