@@ -1,10 +1,11 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import CustomButton from "../Atoms/CustomButton";
 import Image from "../Atoms/Image";
 import Text from "../Atoms/Text";
 import MomentLabel from "./MomentLabel";
 import { ClickHandlerContext } from "../Context";
 import { PageNavID } from "../ComponentTypes";
+import MediaContainer from "./MediaContainer";
 
 const imageStyle = {
   width: 542,
@@ -13,9 +14,17 @@ const imageStyle = {
 };
 
 const BestMoments = () => {
-  const { clickHandler } = useContext(ClickHandlerContext);
+  const [showMediaContainer, setShowMediaContainer] = useState(false);
+  const clickViewAllMedia = () => {
+    setShowMediaContainer(!showMediaContainer);
+  };
+  const onCloseViewAllMedia = () => {
+    setShowMediaContainer(!showMediaContainer);
+  };
+  const { clickHandler, joyfulMedia, setJoyfulMedia } =
+    useContext(ClickHandlerContext);
   return (
-    <div>
+    <div onClick={clickViewAllMedia}>
       <Text content="Best Moments" variant="h6" sx={{ fontWeight: "bold" }} />
       <Image imageStyle={imageStyle} />
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -30,6 +39,13 @@ const BestMoments = () => {
           />
         </div>
       </div>
+      <MediaContainer
+        showMediaContainer={showMediaContainer}
+        onClose={onCloseViewAllMedia}
+        title="Joyful Moments"
+        listOfMedia={joyfulMedia}
+        setMediaList={setJoyfulMedia}
+      />
     </div>
   );
 };

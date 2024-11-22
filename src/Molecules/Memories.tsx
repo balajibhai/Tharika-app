@@ -1,18 +1,10 @@
-import Image from "../Atoms/Image";
 import WhiteCard from "../Atoms/WhiteCard";
 import BestMoments from "./BestMoments";
 import Subcard from "./Subcard";
 import FeaturedMoments from "./FeaturedMoments";
-import MomentLabel from "./MomentLabel";
 import SpecialMoments from "./SpecialMoments";
 import RecentHealthdata from "./RecentHealthdata";
-
-const imageStyle = {
-  width: 250,
-  height: 150,
-  borderRadius: "8%",
-  objectFit: "cover" as const,
-};
+import LastMonthMemorySection from "./LastMonthMemorySection";
 
 const cardStyle = {
   backgroundColor: "white",
@@ -41,13 +33,7 @@ const Memories = () => {
         >
           <div style={{ display: "flex", justifyContent: "space-around" }}>
             <Subcard />
-            <div>
-              <Image imageStyle={imageStyle} />
-              <MomentLabel
-                content="Last Month Memory"
-                time="25 Videos . Sep 2024"
-              />
-            </div>
+            <LastMonthMemorySection />
           </div>
           <BestMoments />
         </div>

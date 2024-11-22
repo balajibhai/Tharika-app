@@ -7,12 +7,14 @@ import { DurationType, MediaItem, MediaType } from "../ComponentTypes";
 import { ClickHandlerContext } from "../Context";
 import CustomButton from "../Atoms/CustomButton";
 import SuccessNotification from "../Atoms/SuccessNotification";
+import UploadLocationSelector from "../Molecules/UploadLocationSelector";
 
 const AddMemory = () => {
   const [previewMediaList, setPreviewMediaList] = useState<MediaItem[]>([]);
   const [saveButtonclick, setSaveButtonclick] = useState<boolean>(false);
   const [showUploadButton, setShowUploadButton] = useState(false);
   const [showSuccessNotification, setShowSuccessNotification] = useState(false);
+  const [openUploadLocation, setOpenUploadLocation] = useState(false);
   const { handleMediaUpload } = useContext(ClickHandlerContext);
 
   useEffect(() => {
@@ -51,15 +53,20 @@ const AddMemory = () => {
     setSaveButtonclick(true);
   };
 
-  const handleFileUpload = () => {
+  const handleFileUpload = (selectedValue: string) => {
+    setOpenUploadLocation(!openUploadLocation);
     setShowSuccessNotification(true);
     setShowUploadButton(false);
-    handleMediaUpload(previewMediaList);
+    handleMediaUpload(previewMediaList, selectedValue);
     setPreviewMediaList([]);
   };
 
   const onNotificationClose = () => {
     setShowSuccessNotification(false);
+  };
+
+  const selectLocation = () => {
+    setOpenUploadLocation(!openUploadLocation);
   };
 
   return (
@@ -80,7 +87,7 @@ const AddMemory = () => {
       )}
       <div style={{ display: "flex", justifyContent: "center" }}>
         {showUploadButton && (
-          <CustomButton content="Upload" onClick={handleFileUpload} />
+          <CustomButton content="Upload" onClick={selectLocation} />
         )}
       </div>
       <SuccessNotification
@@ -107,6 +114,11 @@ const AddMemory = () => {
       <DateTimePicker
         handleDuration={handleDuration}
         buttonDisable={previewMediaList.length === 0}
+      />
+      <UploadLocationSelector
+        openContainer={openUploadLocation}
+        onSelect={handleFileUpload}
+        noSelection={() => setOpenUploadLocation(!openUploadLocation)}
       />
     </div>
   );

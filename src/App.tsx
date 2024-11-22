@@ -11,21 +11,44 @@ const AppStyle = styled(Box)(({ theme }) => ({
   height: "100vh",
 }));
 
-function App() {
+const App = () => {
   const [navbuttonClick, setNavbuttonClick] = useState(PageNavID.HOME);
-  const [mediaList, setUploadMediaList] = useState<MediaItem[]>([]);
+  const [allMedia, setAllMedia] = useState<MediaItem[]>([]);
+  const [LastMonthMedia, setLastMonthMedia] = useState<MediaItem[]>([]);
+  const [joyfulMedia, setJoyfulMedia] = useState<MediaItem[]>([]);
+
+  const setStateMap: Record<
+    string,
+    React.Dispatch<React.SetStateAction<MediaItem[]>>
+  > = {
+    allMedia: setAllMedia,
+    LastMonthMedia: setLastMonthMedia,
+    joyfulMedia: setJoyfulMedia,
+  };
 
   const clickHandler = (value: PageNavID) => {
     setNavbuttonClick(value);
   };
-  const handleMediaUpload = (value: MediaItem[]) => {
-    setUploadMediaList([...mediaList, ...value]);
+
+  const handleMediaUpload = (list: MediaItem[], selectedValue: string) => {
+    const setState = setStateMap[selectedValue];
+    setState((prev) => [...prev, ...list]);
   };
+
   const Component = PageNavComp[navbuttonClick as keyof typeof PageNavComp];
+  const contextValue = {
+    clickHandler,
+    handleMediaUpload,
+    allMedia,
+    setAllMedia,
+    LastMonthMedia,
+    setLastMonthMedia,
+    joyfulMedia,
+    setJoyfulMedia,
+  };
+
   return (
-    <ClickHandlerContext.Provider
-      value={{ clickHandler, handleMediaUpload, mediaList, setUploadMediaList }}
-    >
+    <ClickHandlerContext.Provider value={contextValue}>
       <AppStyle>
         <div>
           <Header navbuttonClick={navbuttonClick} />
@@ -35,6 +58,6 @@ function App() {
       </AppStyle>
     </ClickHandlerContext.Provider>
   );
-}
+};
 
 export default App;

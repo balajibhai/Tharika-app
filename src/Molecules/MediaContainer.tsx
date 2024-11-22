@@ -8,8 +8,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 import DialogContent from "@mui/material/DialogContent";
-import { ClickHandlerContext } from "../Context";
 import MediaDisplay from "./MediaDisplay";
+import { MediaItem } from "../ComponentTypes";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -24,15 +24,13 @@ type MediaContainerProps = {
   showMediaContainer: boolean;
   onClose: () => void;
   title: string;
+  listOfMedia: MediaItem[];
+  setMediaList: React.Dispatch<React.SetStateAction<MediaItem[]>>;
 };
 
-const MediaContainer: React.FC<MediaContainerProps> = ({
-  showMediaContainer,
-  onClose,
-  title,
-}) => {
-  const { mediaList, setUploadMediaList } =
-    React.useContext(ClickHandlerContext);
+const MediaContainer = (props: MediaContainerProps) => {
+  const { onClose, showMediaContainer, title, listOfMedia, setMediaList } =
+    props;
   const [open, setOpen] = React.useState(showMediaContainer);
 
   React.useEffect(() => {
@@ -79,11 +77,11 @@ const MediaContainer: React.FC<MediaContainerProps> = ({
           </Toolbar>
         </AppBar>
         <DialogContent>
-          {mediaList.length > 0 && (
+          {listOfMedia.length > 0 && (
             <MediaDisplay
-              listOfMedia={mediaList}
+              listOfMedia={listOfMedia}
               sectionName=""
-              setMediaList={setUploadMediaList}
+              setMediaList={setMediaList}
             />
           )}
         </DialogContent>
