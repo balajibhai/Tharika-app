@@ -1,8 +1,7 @@
 import { createContext } from "react";
-import { MediaItem, PageNavID } from "./ComponentTypes";
+import { MediaItem } from "./ComponentTypes";
 
 type ClickHandlerContextProps = {
-  clickHandler: (value: PageNavID) => void;
   handleMediaUpload: (list: MediaItem[], selectedValue: string) => void;
   allMedia: MediaItem[];
   setAllMedia: React.Dispatch<React.SetStateAction<MediaItem[]>>;
@@ -13,7 +12,6 @@ type ClickHandlerContextProps = {
 };
 
 export const ClickHandlerContext = createContext<ClickHandlerContextProps>({
-  clickHandler: () => {},
   handleMediaUpload: () => {},
   allMedia: [],
   setAllMedia: () => {},

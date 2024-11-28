@@ -4,8 +4,10 @@ import Image from "../Atoms/Image";
 import Text from "../Atoms/Text";
 import MomentLabel from "./MomentLabel";
 import { ClickHandlerContext } from "../Context";
-import { PageNavID } from "../ComponentTypes";
 import MediaContainer from "./MediaContainer";
+import { clickHandler } from "../Redux/pagenavigation";
+import { useAppDispatch } from "../Hooks/customhooks";
+import { PageNavID } from "../PageNavID";
 
 const imageStyle = {
   width: 542,
@@ -21,8 +23,8 @@ const BestMoments = () => {
   const onCloseViewAllMedia = () => {
     setShowMediaContainer(!showMediaContainer);
   };
-  const { clickHandler, joyfulMedia, setJoyfulMedia } =
-    useContext(ClickHandlerContext);
+  const { joyfulMedia, setJoyfulMedia } = useContext(ClickHandlerContext);
+  const dispatch = useAppDispatch();
   return (
     <div onClick={clickViewAllMedia}>
       <Text content="Best Moments" variant="h6" sx={{ fontWeight: "bold" }} />
@@ -35,7 +37,7 @@ const BestMoments = () => {
           <CustomButton
             content="Add New Memory"
             icon={"AddIcon"}
-            onClick={() => clickHandler(PageNavID.MEMORY)}
+            onClick={() => dispatch(clickHandler(PageNavID.MEMORY))}
           />
         </div>
       </div>

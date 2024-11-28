@@ -9,10 +9,11 @@ import {
 import PeopleIcon from "@mui/icons-material/People";
 import { ArrowBack } from "@mui/icons-material";
 import Text from "../Atoms/Text";
-import { useContext, useEffect, useState } from "react";
-import { PageNavID } from "../ComponentTypes";
+import { useEffect, useState } from "react";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import { ClickHandlerContext } from "../Context";
+import { useAppDispatch, useAppSelector } from "../Hooks/customhooks";
+import { clickHandler } from "../Redux/pagenavigation";
+import { PageNavID } from "../PageNavID";
 
 const HeaderStyle = styled(Box)(({ theme }) => ({
   position: "fixed",
@@ -21,10 +22,6 @@ const HeaderStyle = styled(Box)(({ theme }) => ({
   right: 0,
   zIndex: 1000,
 }));
-
-type HeaderProps = {
-  navbuttonClick: PageNavID;
-};
 
 const RightMostSection = () => {
   return (
@@ -41,15 +38,15 @@ const RightMostSection = () => {
   );
 };
 
-const Header = (props: HeaderProps) => {
-  const { navbuttonClick } = props;
-  const { clickHandler } = useContext(ClickHandlerContext);
+const Header = () => {
+  const pageSelect = useAppSelector((state) => state.pageSelect.navId);
+  const dispatch = useAppDispatch();
   const [headerName, setHeaderName] = useState(PageNavID.HOME);
   const iconStyle = { fontSize: 40, color: "#5A63F0" };
 
   useEffect(() => {
-    setHeaderName(navbuttonClick);
-  }, [navbuttonClick]);
+    setHeaderName(pageSelect);
+  }, [pageSelect]);
 
   return (
     <HeaderStyle>
@@ -64,8 +61,8 @@ const Header = (props: HeaderProps) => {
           {/* Left Icon */}
           <Box sx={{ position: "absolute", left: 0 }}>
             <IconButton edge="start" color="inherit">
-              {navbuttonClick === PageNavID.MEMORY ? (
-                <div onClick={() => clickHandler(PageNavID.HOME)}>
+              {pageSelect === PageNavID.MEMORY ? (
+                <div onClick={() => dispatch(clickHandler(PageNavID.HOME))}>
                   <ArrowBack sx={iconStyle} />
                 </div>
               ) : (
@@ -82,7 +79,7 @@ const Header = (props: HeaderProps) => {
           />
 
           {/* Right Section */}
-          {navbuttonClick !== PageNavID.MEMORY && (
+          {pageSelect !== PageNavID.MEMORY && (
             <Box sx={{ position: "absolute", right: 0 }}>
               <RightMostSection />
             </Box>
