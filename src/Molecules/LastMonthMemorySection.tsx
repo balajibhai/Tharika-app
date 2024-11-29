@@ -1,8 +1,8 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import Image from "../Atoms/Image";
 import MomentLabel from "./MomentLabel";
-import { ClickHandlerContext } from "../Context";
 import MediaContainer from "./MediaContainer";
+import { useAppSelector } from "../Hooks/customhooks";
 
 const imageStyle = {
   width: 250,
@@ -12,7 +12,7 @@ const imageStyle = {
 };
 
 const LastMonthMemorySection = () => {
-  const { LastMonthMedia, setLastMonthMedia } = useContext(ClickHandlerContext);
+  const { LastMonthMedia } = useAppSelector((state) => state.mediaHandler);
   const [showMediaContainer, setShowMediaContainer] = useState(false);
   const clickViewAllMedia = () => {
     setShowMediaContainer(!showMediaContainer);
@@ -30,7 +30,7 @@ const LastMonthMemorySection = () => {
         onClose={onCloseViewAllMedia}
         title="Last month memory"
         listOfMedia={LastMonthMedia}
-        setMediaList={setLastMonthMedia}
+        mediaContainerName="LastMonthMedia"
       />
     </div>
   );

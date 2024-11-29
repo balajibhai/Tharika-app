@@ -1,21 +1,31 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Box } from "@mui/material";
 import { MediaItem } from "../ComponentTypes";
 import Text from "../Atoms/Text";
 import ShowPreview from "./ShowPreview";
+import { useAppDispatch } from "../Hooks/customhooks";
+import { handleMediaDelete } from "../Redux/mediauploadhandler";
 
 type MediaDisplayProps = {
   listOfMedia: MediaItem[];
   sectionName: string;
-  setMediaList: React.Dispatch<React.SetStateAction<MediaItem[]>>;
+  mediaContainerName?: string;
 };
 
 const MediaDisplay = (props: MediaDisplayProps) => {
-  const { listOfMedia, sectionName, setMediaList } = props;
+  const { listOfMedia, sectionName, mediaContainerName } = props;
   const scrollRef = useRef<HTMLDivElement | null>(null);
+  const dispatch = useAppDispatch();
+  const [currentMediaName, setCurrentMediaName] = useState("");
+
+  useEffect(() => {
+    if (mediaContainerName) {
+      setCurrentMediaName(mediaContainerName);
+    }
+  }, [mediaContainerName]);
 
   const handleDelete = (id: string) => {
-    setMediaList((prev) => prev.filter((item) => item.id !== id));
+    dispatch(handleMediaDelete({ id, selectedValue: currentMediaName }));
   };
 
   return (

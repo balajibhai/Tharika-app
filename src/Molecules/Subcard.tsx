@@ -1,8 +1,8 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import Image from "../Atoms/Image";
 import LightBorderCard from "../Atoms/LightBorderCard";
 import MediaContainer from "./MediaContainer";
-import { ClickHandlerContext } from "../Context";
+import { useAppSelector } from "../Hooks/customhooks";
 
 const imageStyle = {
   width: 80,
@@ -25,7 +25,7 @@ const Subcard = () => {
   const onCloseViewAllMedia = () => {
     setShowMediaContainer(!showMediaContainer);
   };
-  const { allMedia, setAllMedia } = useContext(ClickHandlerContext);
+  const { allMedia } = useAppSelector((state) => state.mediaHandler);
 
   return (
     <LightBorderCard sx={borderCardStyle} onClick={clickViewAllMedia}>
@@ -51,7 +51,7 @@ const Subcard = () => {
         onClose={onCloseViewAllMedia}
         title="All media"
         listOfMedia={allMedia}
-        setMediaList={setAllMedia}
+        mediaContainerName="allMedia"
       />
     </LightBorderCard>
   );

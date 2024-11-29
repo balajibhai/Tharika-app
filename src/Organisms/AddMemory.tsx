@@ -1,14 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import DottedSquares from "../Atoms/DottedSquare";
 import Text from "../Atoms/Text";
 import DateTimePicker from "../Molecules/DateTimePicker";
 import MediaDisplay from "../Molecules/MediaDisplay";
 import { DurationType, MediaItem, MediaType } from "../ComponentTypes";
-import { ClickHandlerContext } from "../Context";
 import CustomButton from "../Atoms/CustomButton";
 import SuccessNotification from "../Atoms/SuccessNotification";
 import UploadLocationSelector from "../Molecules/UploadLocationSelector";
 import ProfileSelector from "./ProfileSelector";
+import { useAppDispatch } from "../Hooks/customhooks";
+import { handleMediaUpload } from "../Redux/mediauploadhandler";
 
 const AddMemory = () => {
   const [previewMediaList, setPreviewMediaList] = useState<MediaItem[]>([]);
@@ -17,7 +18,7 @@ const AddMemory = () => {
   const [showSuccessNotification, setShowSuccessNotification] = useState(false);
   const [openUploadLocation, setOpenUploadLocation] = useState(false);
   const [currentProfile, setCurrentProfile] = useState("");
-  const { handleMediaUpload } = useContext(ClickHandlerContext);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (previewMediaList.length === 0) {
@@ -61,7 +62,7 @@ const AddMemory = () => {
     setOpenUploadLocation(!openUploadLocation);
     setShowSuccessNotification(true);
     setShowUploadButton(false);
-    handleMediaUpload(previewMediaList, selectedValue);
+    dispatch(handleMediaUpload({ list: previewMediaList, selectedValue }));
     setPreviewMediaList([]);
   };
 
@@ -87,11 +88,7 @@ const AddMemory = () => {
       }}
     >
       {showUploadButton && (
-        <MediaDisplay
-          listOfMedia={previewMediaList}
-          sectionName="Preview"
-          setMediaList={setPreviewMediaList}
-        />
+        <MediaDisplay listOfMedia={previewMediaList} sectionName="Preview" />
       )}
       <div style={{ display: "flex", justifyContent: "center" }}>
         {showUploadButton && (

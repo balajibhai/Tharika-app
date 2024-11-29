@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import navReducer from "./pagenavigation";
+import mediaReducer from "./mediauploadhandler";
 
 const store = configureStore({
   reducer: {
-    pageSelect: navReducer, // Register reducers here
+    pageSelect: navReducer,
+    mediaHandler: mediaReducer,
   },
 });
 

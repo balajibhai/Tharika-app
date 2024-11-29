@@ -1,12 +1,11 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import CustomButton from "../Atoms/CustomButton";
 import Image from "../Atoms/Image";
 import Text from "../Atoms/Text";
 import MomentLabel from "./MomentLabel";
-import { ClickHandlerContext } from "../Context";
 import MediaContainer from "./MediaContainer";
 import { clickHandler } from "../Redux/pagenavigation";
-import { useAppDispatch } from "../Hooks/customhooks";
+import { useAppDispatch, useAppSelector } from "../Hooks/customhooks";
 import { PageNavID } from "../PageNavID";
 
 const imageStyle = {
@@ -23,7 +22,7 @@ const BestMoments = () => {
   const onCloseViewAllMedia = () => {
     setShowMediaContainer(!showMediaContainer);
   };
-  const { joyfulMedia, setJoyfulMedia } = useContext(ClickHandlerContext);
+  const { joyfulMedia } = useAppSelector((state) => state.mediaHandler);
   const dispatch = useAppDispatch();
   return (
     <div onClick={clickViewAllMedia}>
@@ -46,7 +45,7 @@ const BestMoments = () => {
         onClose={onCloseViewAllMedia}
         title="Joyful Moments"
         listOfMedia={joyfulMedia}
-        setMediaList={setJoyfulMedia}
+        mediaContainerName="joyfulMedia"
       />
     </div>
   );

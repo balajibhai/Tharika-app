@@ -2,7 +2,6 @@ import { createContext } from "react";
 import { MediaItem } from "./ComponentTypes";
 
 type ClickHandlerContextProps = {
-  handleMediaUpload: (list: MediaItem[], selectedValue: string) => void;
   allMedia: MediaItem[];
   setAllMedia: React.Dispatch<React.SetStateAction<MediaItem[]>>;
   setLastMonthMedia: React.Dispatch<React.SetStateAction<MediaItem[]>>;
@@ -12,7 +11,6 @@ type ClickHandlerContextProps = {
 };
 
 export const ClickHandlerContext = createContext<ClickHandlerContextProps>({
-  handleMediaUpload: () => {},
   allMedia: [],
   setAllMedia: () => {},
   LastMonthMedia: [],

@@ -25,12 +25,17 @@ type MediaContainerProps = {
   onClose: () => void;
   title: string;
   listOfMedia: MediaItem[];
-  setMediaList: React.Dispatch<React.SetStateAction<MediaItem[]>>;
+  mediaContainerName: string;
 };
 
 const MediaContainer = (props: MediaContainerProps) => {
-  const { onClose, showMediaContainer, title, listOfMedia, setMediaList } =
-    props;
+  const {
+    onClose,
+    showMediaContainer,
+    title,
+    listOfMedia,
+    mediaContainerName,
+  } = props;
   const [open, setOpen] = React.useState(showMediaContainer);
 
   React.useEffect(() => {
@@ -81,7 +86,7 @@ const MediaContainer = (props: MediaContainerProps) => {
             <MediaDisplay
               listOfMedia={listOfMedia}
               sectionName=""
-              setMediaList={setMediaList}
+              mediaContainerName={mediaContainerName}
             />
           )}
         </DialogContent>
