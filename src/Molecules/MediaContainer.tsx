@@ -42,15 +42,15 @@ const MediaContainer = (props: MediaContainerProps) => {
     setOpen(showMediaContainer);
   }, [showMediaContainer]);
 
-  const handleDialogClose = (
-    event: object,
-    reason: "backdropClick" | "escapeKeyDown"
-  ) => {
-    if (reason === "backdropClick" || reason === "escapeKeyDown") {
-      return;
-    }
-    onClose();
-  };
+  const handleDialogClose = React.useCallback(
+    (event: object, reason: "backdropClick" | "escapeKeyDown") => {
+      if (reason === "backdropClick" || reason === "escapeKeyDown") {
+        return;
+      }
+      onClose();
+    },
+    [onClose]
+  );
 
   return (
     <React.Fragment>

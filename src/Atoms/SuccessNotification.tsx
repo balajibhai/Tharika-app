@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Snackbar, Alert } from "@mui/material";
 
 type SuccessNotificationProps = {
@@ -15,16 +15,16 @@ const SuccessNotification = (props: SuccessNotificationProps) => {
   }, [showSuccessNotification]);
 
   // Close the Snackbar
-  const handleClose = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpen(false);
-    onNotificationClose();
-  };
+  const handleClose = useCallback(
+    (event?: React.SyntheticEvent | Event, reason?: string) => {
+      if (reason === "clickaway") {
+        return;
+      }
+      setOpen(false);
+      onNotificationClose();
+    },
+    [onNotificationClose]
+  );
 
   return (
     <div>

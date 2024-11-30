@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Button from "../Atoms/Button";
 import Text from "../Atoms/Text";
 
@@ -9,12 +9,12 @@ interface AddMemberProps {
 const AddMember: React.FC<AddMemberProps> = ({ onAdd }) => {
   const [name, setName] = useState<string>("");
 
-  const handleAdd = () => {
+  const handleAdd = useCallback(() => {
     if (name.trim()) {
       onAdd(name);
       setName("");
     }
-  };
+  }, [name, onAdd]);
 
   const buttonStyle = {
     border: "1px solid gray",

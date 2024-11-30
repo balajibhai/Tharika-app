@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Image from "../Atoms/Image";
 import LightBorderCard from "../Atoms/LightBorderCard";
 import MediaContainer from "./MediaContainer";
@@ -19,12 +19,12 @@ const borderCardStyle = {
 
 const Subcard = () => {
   const [showMediaContainer, setShowMediaContainer] = useState(false);
-  const clickViewAllMedia = () => {
+  const clickViewAllMedia = useCallback(() => {
     setShowMediaContainer(!showMediaContainer);
-  };
-  const onCloseViewAllMedia = () => {
+  }, [showMediaContainer]);
+  const onCloseViewAllMedia = useCallback(() => {
     setShowMediaContainer(!showMediaContainer);
-  };
+  }, [showMediaContainer]);
   const { allMedia } = useAppSelector((state) => state.mediaHandler);
 
   return (

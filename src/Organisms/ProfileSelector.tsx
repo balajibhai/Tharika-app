@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useCallback, useState } from "react";
 import ProfileCard from "../Molecules/ProfileCard";
 import AddMember from "../Molecules/AddMember";
 import Text from "../Atoms/Text";
@@ -30,15 +30,21 @@ const ProfileSelector = (props: ProfileSelectorProps) => {
   const [activeProfile, setActiveProfile] = useState<number | null>(null);
   const [isAddingMember, setIsAddingMember] = useState<boolean>(false);
 
-  const handleAddProfile = (name: string) => {
-    setProfiles([...profiles, { id: Date.now(), name }]);
-    setIsAddingMember(false);
-  };
+  const handleAddProfile = useCallback(
+    (name: string) => {
+      setProfiles([...profiles, { id: Date.now(), name }]);
+      setIsAddingMember(false);
+    },
+    [profiles]
+  );
 
-  const profileCardClick = (id: number | null, name: string) => {
-    setActiveProfile(id);
-    onSelection(name);
-  };
+  const profileCardClick = useCallback(
+    (id: number | null, name: string) => {
+      setActiveProfile(id);
+      onSelection(name);
+    },
+    [onSelection]
+  );
 
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>

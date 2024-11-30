@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { TextField, Box, MenuItem, InputAdornment } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
@@ -36,19 +36,22 @@ const DateTimePicker = (props: DateTimePickerProps) => {
     "09:00PM",
   ];
 
-  const handleDateTimeChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    type: DurationEnumType
-  ) => {
-    setDateTime({
-      ...dateTime,
-      [type]: event.target.value,
-    });
-  };
+  const handleDateTimeChange = useCallback(
+    (
+      event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+      type: DurationEnumType
+    ) => {
+      setDateTime({
+        ...dateTime,
+        [type]: event.target.value,
+      });
+    },
+    [dateTime]
+  );
 
-  const onSave = () => {
+  const onSave = useCallback(() => {
     handleDuration(dateTime);
-  };
+  }, [handleDuration, dateTime]);
 
   return (
     <Box

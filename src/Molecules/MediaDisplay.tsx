@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Box } from "@mui/material";
 import { MediaItem } from "../ComponentTypes";
 import Text from "../Atoms/Text";
@@ -10,10 +10,11 @@ type MediaDisplayProps = {
   listOfMedia: MediaItem[];
   sectionName: string;
   mediaContainerName?: string;
+  setMediaList?: React.Dispatch<React.SetStateAction<MediaItem[]>>;
 };
 
 const MediaDisplay = (props: MediaDisplayProps) => {
-  const { listOfMedia, sectionName, mediaContainerName } = props;
+  const { listOfMedia, sectionName, mediaContainerName, setMediaList } = props;
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const dispatch = useAppDispatch();
   const [currentMediaName, setCurrentMediaName] = useState("");
@@ -24,9 +25,16 @@ const MediaDisplay = (props: MediaDisplayProps) => {
     }
   }, [mediaContainerName]);
 
-  const handleDelete = (id: string) => {
-    dispatch(handleMediaDelete({ id, selectedValue: currentMediaName }));
-  };
+  const handleDelete = useCallback(
+    (id: string) => {
+      if (sectionName === "Preview" && setMediaList) {
+        setMediaList((prev) => prev.filter((item) => item.id !== id));
+      } else {
+        dispatch(handleMediaDelete({ id, selectedValue: currentMediaName }));
+      }
+    },
+    [currentMediaName, setMediaList, sectionName, dispatch]
+  );
 
   return (
     <Box sx={{ padding: "20px" }}>

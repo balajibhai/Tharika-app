@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import DottedSquares from "../Atoms/DottedSquare";
 import Text from "../Atoms/Text";
 import DateTimePicker from "../Molecules/DateTimePicker";
@@ -31,52 +31,58 @@ const AddMemory = () => {
     }
   }, [previewMediaList.length, saveButtonclick]);
 
-  const handleFilePreview = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    type: MediaType
-  ) => {
-    const files = event.target.files;
-    if (files) {
-      const newMedia: MediaItem[] = Array.from(files).map((file) => ({
-        id: file.name,
-        name: "",
-        type,
-        url: URL.createObjectURL(file),
-        duration: {
-          Date: "",
-          Time: "",
-        },
-      }));
-      setPreviewMediaList((prev) => [...prev, ...newMedia]);
-    }
-  };
+  const handleFilePreview = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>, type: MediaType) => {
+      const files = event.target.files;
+      if (files) {
+        const newMedia: MediaItem[] = Array.from(files).map((file) => ({
+          id: file.name,
+          name: "",
+          type,
+          url: URL.createObjectURL(file),
+          duration: {
+            Date: "",
+            Time: "",
+          },
+        }));
+        setPreviewMediaList((prev) => [...prev, ...newMedia]);
+      }
+    },
+    []
+  );
 
-  const handleDuration = (value: typeof DurationType) => {
-    previewMediaList[previewMediaList.length - 1].duration = value;
-    previewMediaList[previewMediaList.length - 1].name = currentProfile;
-    setPreviewMediaList([...previewMediaList]);
-    setSaveButtonclick(true);
-  };
+  const handleDuration = useCallback(
+    (value: typeof DurationType) => {
+      previewMediaList[previewMediaList.length - 1].duration = value;
+      previewMediaList[previewMediaList.length - 1].name = currentProfile;
+      setPreviewMediaList([...previewMediaList]);
+      setSaveButtonclick(true);
+    },
+    [currentProfile, previewMediaList]
+  );
 
-  const handleFileUpload = (selectedValue: string) => {
-    setOpenUploadLocation(!openUploadLocation);
-    setShowSuccessNotification(true);
-    setShowUploadButton(false);
-    dispatch(handleMediaUpload({ list: previewMediaList, selectedValue }));
-    setPreviewMediaList([]);
-  };
+  const handleFileUpload = useCallback(
+    (selectedValue: string) => {
+      setOpenUploadLocation(!openUploadLocation);
+      setShowSuccessNotification(true);
+      setShowUploadButton(false);
+      dispatch(handleMediaUpload({ list: previewMediaList, selectedValue }));
+      setPreviewMediaList([]);
+    },
+    [openUploadLocation, previewMediaList, dispatch]
+  );
 
-  const onNotificationClose = () => {
+  const onNotificationClose = useCallback(() => {
     setShowSuccessNotification(false);
-  };
+  }, []);
 
-  const selectLocation = () => {
+  const selectLocation = useCallback(() => {
     setOpenUploadLocation(!openUploadLocation);
-  };
+  }, [openUploadLocation]);
 
-  const handleProfileSelection = (profile: string) => {
+  const handleProfileSelection = useCallback((profile: string) => {
     setCurrentProfile(profile);
-  };
+  }, []);
 
   return (
     <div
@@ -88,7 +94,11 @@ const AddMemory = () => {
       }}
     >
       {showUploadButton && (
-        <MediaDisplay listOfMedia={previewMediaList} sectionName="Preview" />
+        <MediaDisplay
+          listOfMedia={previewMediaList}
+          sectionName="Preview"
+          setMediaList={setPreviewMediaList}
+        />
       )}
       <div style={{ display: "flex", justifyContent: "center" }}>
         {showUploadButton && (

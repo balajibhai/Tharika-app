@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import CustomButton from "../Atoms/CustomButton";
 import Image from "../Atoms/Image";
 import Text from "../Atoms/Text";
@@ -16,12 +16,12 @@ const imageStyle = {
 
 const BestMoments = () => {
   const [showMediaContainer, setShowMediaContainer] = useState(false);
-  const clickViewAllMedia = () => {
+  const clickViewAllMedia = useCallback(() => {
     setShowMediaContainer(!showMediaContainer);
-  };
-  const onCloseViewAllMedia = () => {
+  }, [showMediaContainer]);
+  const onCloseViewAllMedia = useCallback(() => {
     setShowMediaContainer(!showMediaContainer);
-  };
+  }, [showMediaContainer]);
   const { joyfulMedia } = useAppSelector((state) => state.mediaHandler);
   const dispatch = useAppDispatch();
   return (

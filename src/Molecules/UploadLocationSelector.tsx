@@ -30,9 +30,12 @@ const UploadLocationSelector = (props: UploadLocationSelectorProps) => {
     setOpen(openContainer);
   }, [openContainer]);
 
-  const handleListItemClick = (value: string) => {
-    onSelect(value);
-  };
+  const handleListItemClick = React.useCallback(
+    (value: string) => {
+      onSelect(value);
+    },
+    [onSelect]
+  );
 
   return (
     <Dialog onClose={noSelection} open={open}>

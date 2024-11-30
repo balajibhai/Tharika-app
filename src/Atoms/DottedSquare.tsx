@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import { Box, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
@@ -47,19 +47,19 @@ const DottedSquares = (props: DottedSquaresProps) => {
   const { onFilePreview } = props;
   const inputFileRef = useRef<HTMLInputElement | null>(null);
 
-  const handlePhotoClick = () => {
+  const handlePhotoClick = useCallback(() => {
     if (inputFileRef.current) {
       inputFileRef.current.accept = "image/*";
       inputFileRef.current.click();
     }
-  };
+  }, []);
 
-  const handleVideoClick = () => {
+  const handleVideoClick = useCallback(() => {
     if (inputFileRef.current) {
       inputFileRef.current.accept = "video/*";
       inputFileRef.current.click();
     }
-  };
+  }, []);
 
   return (
     <Box sx={{ display: "flex", justifyContent: "center" }}>

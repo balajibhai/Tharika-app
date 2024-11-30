@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Image from "../Atoms/Image";
 import MomentLabel from "./MomentLabel";
 import MediaContainer from "./MediaContainer";
@@ -14,12 +14,12 @@ const imageStyle = {
 const LastMonthMemorySection = () => {
   const { LastMonthMedia } = useAppSelector((state) => state.mediaHandler);
   const [showMediaContainer, setShowMediaContainer] = useState(false);
-  const clickViewAllMedia = () => {
+  const clickViewAllMedia = useCallback(() => {
     setShowMediaContainer(!showMediaContainer);
-  };
-  const onCloseViewAllMedia = () => {
+  }, [showMediaContainer]);
+  const onCloseViewAllMedia = useCallback(() => {
     setShowMediaContainer(!showMediaContainer);
-  };
+  }, [showMediaContainer]);
 
   return (
     <div onClick={clickViewAllMedia}>
