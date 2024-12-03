@@ -3,4 +3,5 @@ export enum PageNavID {
   SETTINGS = "Settings",
   HEALTH = "Health",
   HOME = "Home",
+  LOGINPAGE = "LOGINPAGE",
 }

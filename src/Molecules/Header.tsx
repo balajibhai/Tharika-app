@@ -14,6 +14,8 @@ import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import { useAppDispatch, useAppSelector } from "../Hooks/customhooks";
 import { clickHandler } from "../Redux/pagenavigation";
 import { PageNavID } from "../PageNavID";
+import CustomButton from "../Atoms/CustomButton";
+import { loginHandler } from "../Redux/authentication";
 
 const HeaderStyle = styled(Box)(({ theme }) => ({
   position: "fixed",
@@ -24,6 +26,7 @@ const HeaderStyle = styled(Box)(({ theme }) => ({
 }));
 
 const RightMostSection = () => {
+  const dispatch = useAppDispatch();
   return (
     <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
       <IconButton color="inherit">
@@ -33,6 +36,10 @@ const RightMostSection = () => {
         alt="Profile Picture"
         src="https://example.com/path-to-your-image.jpg"
         sx={{ width: 40, height: 40 }}
+      />
+      <CustomButton
+        content="Logout"
+        onClick={() => dispatch(loginHandler(false))}
       />
     </div>
   );

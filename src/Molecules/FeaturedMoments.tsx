@@ -47,22 +47,19 @@ const CardGroup = () => {
       >
         <style>
           {`
-      /* Hide scrollbar for Chrome, Safari, and Opera */
-      div::-webkit-scrollbar {
-        display: none;
-      }
-    `}
+    /* Hide scrollbar for Chrome, Safari, and Opera */
+    div::-webkit-scrollbar {
+      display: none;
+    }
+  `}
         </style>
-        {cardsData.map((card) => {
-          return (
-            <>
-              <FeaturedMomentCard
-                name={card.name}
-                backgroundColor={card.backgroundColor}
-              />
-            </>
-          );
-        })}
+        {cardsData.map((card) => (
+          <FeaturedMomentCard
+            name={card.name}
+            backgroundColor={card.backgroundColor}
+            key={card.id}
+          />
+        ))}
       </div>
     </div>
   );

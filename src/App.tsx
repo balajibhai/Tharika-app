@@ -1,28 +1,11 @@
-import { Box, styled } from "@mui/material";
-import Footer from "./Molecules/Footer";
-import Header from "./Molecules/Header";
-import { PageNavComp } from "./ComponentTypes";
+import LoginPage from "./Molecules/LoginPage";
+import AfterAuth from "./Molecules/AfterAuth";
 import { useAppSelector } from "./Hooks/customhooks";
 
-const AppStyle = styled(Box)(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
-  height: "100vh",
-}));
-
 const App = () => {
-  const pageSelect = useAppSelector((state) => state.pageSelect.navId);
+  const { loginState } = useAppSelector((state) => state.authenticationReducer);
 
-  const Component = PageNavComp[pageSelect as keyof typeof PageNavComp];
-  return (
-    <AppStyle>
-      <div>
-        <Header />
-      </div>
-      <Component />
-      <Footer />
-    </AppStyle>
-  );
+  return !loginState ? <LoginPage /> : <AfterAuth />;
 };
 
 export default App;
