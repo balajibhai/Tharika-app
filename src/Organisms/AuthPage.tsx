@@ -5,7 +5,6 @@ import Container from "@mui/material/Container";
 import { useAppDispatch, useAppSelector } from "../Hooks/customhooks";
 import { credentialsHandler, loginHandler } from "../Redux/authentication";
 import Text from "../Atoms/Text";
-import BlueLink from "../Atoms/BlueLink";
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -51,8 +50,10 @@ const AuthPage = () => {
         <div>
           <Text content="Login" variant="h6" sx={{ fontWeight: "bold" }} />
           <LoginForm onLogin={handleLogin} errorMessage={errorMessage} />
-          <BlueLink
+          <Text
             content="Don't have an account? Sign Up"
+            variant="subtitle2"
+            sx={{ color: "blue", cursor: "pointer" }}
             onClick={() => setIsLogin(false)}
           />
         </div>
@@ -60,8 +61,10 @@ const AuthPage = () => {
         <div>
           <Text content="Sign up" variant="h6" sx={{ fontWeight: "bold" }} />
           <SignupForm onSignup={handleSignup} errorMessage={errorMessage} />
-          <BlueLink
+          <Text
             content="Already have an account? Login"
+            variant="subtitle2"
+            sx={{ color: "blue", cursor: "pointer" }}
             onClick={() => setIsLogin(true)}
           />
         </div>

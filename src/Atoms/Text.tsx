@@ -18,11 +18,13 @@ interface textProps {
     | "overline";
   content: string;
   sx?: object;
+  onClick?: () => void;
 }
 
-const Text = ({ variant, content, sx }: textProps) => {
+const Text = (props: textProps) => {
+  const { content, sx, variant, onClick } = props;
   return (
-    <Typography variant={variant} sx={sx}>
+    <Typography variant={variant} sx={sx} onClick={onClick}>
       {content}
     </Typography>
   );
