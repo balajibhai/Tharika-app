@@ -3,10 +3,11 @@ import React from "react";
 interface ButtonProps {
   children: React.ReactNode;
   onClick: () => void;
-  style: {};
+  style: React.CSSProperties;
 }
 
-const Button: React.FC<ButtonProps> = ({ children, onClick, style }) => {
+const Button = (props: ButtonProps) => {
+  const { children, onClick, style } = props;
   return (
     <button onClick={onClick} style={style}>
       {children}
