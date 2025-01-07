@@ -5,10 +5,10 @@ import AuthPage from "./Organisms/AuthPage";
 
 const App = () => {
   const { loginState } = useAppSelector((state) => state.authenticationReducer);
+  // TODO: keep the urls in an environment file or a constants file
   fetch("http://localhost:3001/posts")
     .then((response) => response.json())
     .then((data) => console.log(data));
-
   return (
     <BrowserRouter>
       <Routes>
