@@ -16,7 +16,6 @@ const borderCardStyle = {
   height: 200,
   cursor: "pointer",
 };
-// test commit
 
 const Subcard = () => {
   const [showMediaContainer, setShowMediaContainer] = useState(false);
