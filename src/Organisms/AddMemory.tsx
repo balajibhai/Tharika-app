@@ -3,7 +3,13 @@ import DottedSquares from "../Atoms/DottedSquare";
 import Text from "../Atoms/Text";
 import DateTimePicker from "../Molecules/DateTimePicker";
 import MediaDisplay from "../Molecules/MediaDisplay";
-import { DurationType, MediaItem, MediaType } from "../ComponentTypes";
+import {
+  DurationType,
+  MediaItem,
+  MediaType,
+  Profile,
+  selectionType,
+} from "../ComponentTypes";
 import CustomButton from "../Atoms/CustomButton";
 import SuccessNotification from "../Atoms/SuccessNotification";
 import UploadLocationSelector from "../Molecules/UploadLocationSelector";
@@ -19,6 +25,15 @@ const AddMemory = () => {
   const [openUploadLocation, setOpenUploadLocation] = useState(false);
   const [currentProfile, setCurrentProfile] = useState("");
   const dispatch = useAppDispatch();
+  const [profileselector, setProfileSelector] = useState<Profile[]>([
+    { id: 1, name: "Jenny" },
+    { id: 2, name: "Jacob" },
+    { id: 3, name: "Rustyn" },
+    { id: 4, name: "Ileana" },
+  ]);
+  const [categorySelector, setCategorySelector] = useState<Profile[]>([
+    { id: 1, name: "Proud moments" },
+  ]);
 
   useEffect(() => {
     if (previewMediaList.length === 0) {
@@ -84,6 +99,14 @@ const AddMemory = () => {
     setCurrentProfile(profile);
   }, []);
 
+  const onUpdate = (name: string, type: selectionType) => {
+    if (type === selectionType.PROFILE) {
+      setProfileSelector([...profileselector, { id: Date.now(), name }]);
+    } else {
+      setCategorySelector([...categorySelector, { id: Date.now(), name }]);
+    }
+  };
+
   return (
     <div
       style={{
@@ -126,7 +149,18 @@ const AddMemory = () => {
       <div>
         <DottedSquares onFilePreview={handleFilePreview} />
       </div>
-      <ProfileSelector onSelection={handleProfileSelection} />
+      <ProfileSelector
+        onSelection={handleProfileSelection}
+        type={selectionType.PROFILE}
+        selector={profileselector}
+        onUpdate={onUpdate}
+      />
+      <ProfileSelector
+        onSelection={handleProfileSelection}
+        type={selectionType.CATEGORY}
+        selector={categorySelector}
+        onUpdate={onUpdate}
+      />
       <DateTimePicker
         handleDuration={handleDuration}
         buttonDisable={previewMediaList.length === 0}

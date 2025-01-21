@@ -29,3 +29,13 @@ export interface MediaItem {
   url: string;
   duration: typeof DurationType;
 }
+
+export enum selectionType {
+  CATEGORY = "category",
+  PROFILE = "profile",
+}
+
+export interface Profile {
+  id: number;
+  name: string;
+}

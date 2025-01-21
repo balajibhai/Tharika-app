@@ -62,6 +62,7 @@ const DateTimePicker = (props: DateTimePickerProps) => {
         width: "300px",
         margin: "0 auto",
         mt: 5,
+        marginBottom: "30px",
       }}
     >
       <TextField

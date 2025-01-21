@@ -1,13 +1,9 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ProfileCard from "../Molecules/ProfileCard";
 import AddMember from "../Molecules/AddMember";
 import Text from "../Atoms/Text";
 import LightBorderCard from "../Atoms/LightBorderCard";
-
-interface Profile {
-  id: number;
-  name: string;
-}
+import { Profile, selectionType } from "../ComponentTypes";
 
 const borderCardStyle = {
   padding: "20px",
@@ -16,26 +12,28 @@ const borderCardStyle = {
 
 type ProfileSelectorProps = {
   onSelection: (profile: string) => void;
+  type: selectionType;
+  selector: Profile[];
+  onUpdate: (name: string, type: selectionType) => void;
 };
 
 const ProfileSelector = (props: ProfileSelectorProps) => {
-  const { onSelection } = props;
-  const [profiles, setProfiles] = useState<Profile[]>([
-    { id: 1, name: "Jenny" },
-    { id: 2, name: "Jacob" },
-    { id: 3, name: "Rustyn" },
-    { id: 4, name: "Ileana" },
-  ]);
+  const { onSelection, type, selector, onUpdate } = props;
+  const [profiles, setProfiles] = useState<Profile[]>(selector);
+
+  useEffect(() => {
+    setProfiles(selector);
+  }, [selector]);
 
   const [activeProfile, setActiveProfile] = useState<number | null>(null);
   const [isAddingMember, setIsAddingMember] = useState<boolean>(false);
 
   const handleAddProfile = useCallback(
     (name: string) => {
-      setProfiles([...profiles, { id: Date.now(), name }]);
+      onUpdate(name, type);
       setIsAddingMember(false);
     },
-    [profiles]
+    [onUpdate, type]
   );
 
   const profileCardClick = useCallback(
@@ -47,10 +45,16 @@ const ProfileSelector = (props: ProfileSelectorProps) => {
   );
 
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
+    <div
+      style={{ display: "flex", justifyContent: "center", marginTop: "11px" }}
+    >
       <LightBorderCard sx={borderCardStyle}>
         <Text
-          content="Special Profile"
+          content={
+            type === selectionType.PROFILE
+              ? "Select Profile"
+              : "Select Category"
+          }
           variant="h6"
           sx={{ fontWeight: "bold" }}
         />
@@ -64,7 +68,9 @@ const ProfileSelector = (props: ProfileSelectorProps) => {
             />
           ))}
           <ProfileCard
-            name="+ Add Member"
+            name={
+              type === selectionType.PROFILE ? "+ Add Member" : "+ Add Category"
+            }
             isActive={false}
             onClick={() => setIsAddingMember(true)}
           />

@@ -43,6 +43,10 @@ const AuthPage = () => {
     },
     [dispatch]
   );
+  const { loginState } = useAppSelector((state) => state.authenticationReducer);
+  if (loginState) {
+    return null;
+  }
 
   return (
     <Container maxWidth="sm">
