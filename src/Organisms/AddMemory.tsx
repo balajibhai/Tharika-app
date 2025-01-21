@@ -16,6 +16,7 @@ import UploadLocationSelector from "../Molecules/UploadLocationSelector";
 import ProfileSelector from "./ProfileSelector";
 import { useAppDispatch } from "../Hooks/customhooks";
 import { handleMediaUpload } from "../Redux/mediauploadhandler";
+import Note from "../Atoms/Note";
 
 const AddMemory = () => {
   const [previewMediaList, setPreviewMediaList] = useState<MediaItem[]>([]);
@@ -34,6 +35,7 @@ const AddMemory = () => {
   const [categorySelector, setCategorySelector] = useState<Profile[]>([
     { id: 1, name: "Proud moments" },
   ]);
+  const [note, setNote] = useState({ title: "", description: "" });
 
   useEffect(() => {
     if (previewMediaList.length === 0) {
@@ -107,6 +109,10 @@ const AddMemory = () => {
     }
   };
 
+  const handleChange = (field: "title" | "description", value: string) => {
+    setNote((prev) => ({ ...prev, [field]: value }));
+  };
+
   return (
     <div
       style={{
@@ -161,6 +167,15 @@ const AddMemory = () => {
         selector={categorySelector}
         onUpdate={onUpdate}
       />
+      <div
+        style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}
+      >
+        <Note
+          title={note.title}
+          description={note.description}
+          onChange={handleChange}
+        />
+      </div>
       <DateTimePicker
         handleDuration={handleDuration}
         buttonDisable={previewMediaList.length === 0}

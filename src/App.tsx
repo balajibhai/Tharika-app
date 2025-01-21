@@ -6,9 +6,6 @@ import { useEffect } from "react";
 
 const App = () => {
   const { loginState } = useAppSelector((state) => state.authenticationReducer);
-  useEffect(() => {
-    console.log("loginState: ", loginState);
-  }, [loginState]);
   // fetch("http://localhost:3001/posts")
   //   .then((response) => response.json())
   //   .then((data) => console.log(data));
