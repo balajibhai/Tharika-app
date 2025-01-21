@@ -7,8 +7,9 @@ import {
   DurationType,
   MediaItem,
   MediaType,
+  NoteType,
   Profile,
-  selectionType,
+  SelectionType,
 } from "../ComponentTypes";
 import CustomButton from "../Atoms/CustomButton";
 import SuccessNotification from "../Atoms/SuccessNotification";
@@ -25,6 +26,7 @@ const AddMemory = () => {
   const [showSuccessNotification, setShowSuccessNotification] = useState(false);
   const [openUploadLocation, setOpenUploadLocation] = useState(false);
   const [currentProfile, setCurrentProfile] = useState("");
+  const [currentCategory, setCurrentCategory] = useState("");
   const dispatch = useAppDispatch();
   const [profileselector, setProfileSelector] = useState<Profile[]>([
     { id: 1, name: "Jenny" },
@@ -35,7 +37,7 @@ const AddMemory = () => {
   const [categorySelector, setCategorySelector] = useState<Profile[]>([
     { id: 1, name: "Proud moments" },
   ]);
-  const [note, setNote] = useState({ title: "", description: "" });
+  const [note, setNote] = useState<NoteType>({ title: "", description: "" });
 
   useEffect(() => {
     if (previewMediaList.length === 0) {
@@ -55,7 +57,9 @@ const AddMemory = () => {
         const newMedia: MediaItem[] = Array.from(files).map((file) => ({
           id: file.name,
           name: "",
+          category: "",
           type,
+          note: { title: "", description: "" },
           url: URL.createObjectURL(file),
           duration: {
             Date: "",
@@ -72,10 +76,12 @@ const AddMemory = () => {
     (value: typeof DurationType) => {
       previewMediaList[previewMediaList.length - 1].duration = value;
       previewMediaList[previewMediaList.length - 1].name = currentProfile;
+      previewMediaList[previewMediaList.length - 1].category = currentCategory;
+      previewMediaList[previewMediaList.length - 1].note = note;
       setPreviewMediaList([...previewMediaList]);
       setSaveButtonclick(true);
     },
-    [currentProfile, previewMediaList]
+    [currentProfile, previewMediaList, currentCategory, note]
   );
 
   const handleFileUpload = useCallback(
@@ -97,19 +103,23 @@ const AddMemory = () => {
     setOpenUploadLocation(!openUploadLocation);
   }, [openUploadLocation]);
 
-  const handleProfileSelection = useCallback((profile: string) => {
-    setCurrentProfile(profile);
+  const handleProfileSelection = useCallback((name: string, type: string) => {
+    if (type === SelectionType.PROFILE) {
+      setCurrentProfile(name);
+    } else {
+      setCurrentCategory(name);
+    }
   }, []);
 
-  const onUpdate = (name: string, type: selectionType) => {
-    if (type === selectionType.PROFILE) {
+  const onUpdate = (name: string, type: SelectionType) => {
+    if (type === SelectionType.PROFILE) {
       setProfileSelector([...profileselector, { id: Date.now(), name }]);
     } else {
       setCategorySelector([...categorySelector, { id: Date.now(), name }]);
     }
   };
 
-  const handleChange = (field: "title" | "description", value: string) => {
+  const handleNoteChange = (field: "title" | "description", value: string) => {
     setNote((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -157,13 +167,13 @@ const AddMemory = () => {
       </div>
       <ProfileSelector
         onSelection={handleProfileSelection}
-        type={selectionType.PROFILE}
+        type={SelectionType.PROFILE}
         selector={profileselector}
         onUpdate={onUpdate}
       />
       <ProfileSelector
         onSelection={handleProfileSelection}
-        type={selectionType.CATEGORY}
+        type={SelectionType.CATEGORY}
         selector={categorySelector}
         onUpdate={onUpdate}
       />
@@ -173,7 +183,7 @@ const AddMemory = () => {
         <Note
           title={note.title}
           description={note.description}
-          onChange={handleChange}
+          onChange={handleNoteChange}
         />
       </div>
       <DateTimePicker

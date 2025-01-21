@@ -3,7 +3,7 @@ import ProfileCard from "../Molecules/ProfileCard";
 import AddMember from "../Molecules/AddMember";
 import Text from "../Atoms/Text";
 import LightBorderCard from "../Atoms/LightBorderCard";
-import { Profile, selectionType } from "../ComponentTypes";
+import { Profile, SelectionType } from "../ComponentTypes";
 
 const borderCardStyle = {
   padding: "20px",
@@ -11,10 +11,10 @@ const borderCardStyle = {
 };
 
 type ProfileSelectorProps = {
-  onSelection: (profile: string) => void;
-  type: selectionType;
+  onSelection: (profile: string, type: SelectionType) => void;
+  type: SelectionType;
   selector: Profile[];
-  onUpdate: (name: string, type: selectionType) => void;
+  onUpdate: (name: string, type: SelectionType) => void;
 };
 
 const ProfileSelector = (props: ProfileSelectorProps) => {
@@ -39,9 +39,9 @@ const ProfileSelector = (props: ProfileSelectorProps) => {
   const profileCardClick = useCallback(
     (id: number | null, name: string) => {
       setActiveProfile(id);
-      onSelection(name);
+      onSelection(name, type);
     },
-    [onSelection]
+    [onSelection, type]
   );
 
   return (
@@ -51,7 +51,7 @@ const ProfileSelector = (props: ProfileSelectorProps) => {
       <LightBorderCard sx={borderCardStyle}>
         <Text
           content={
-            type === selectionType.PROFILE
+            type === SelectionType.PROFILE
               ? "Select Profile"
               : "Select Category"
           }
@@ -69,7 +69,7 @@ const ProfileSelector = (props: ProfileSelectorProps) => {
           ))}
           <ProfileCard
             name={
-              type === selectionType.PROFILE ? "+ Add Member" : "+ Add Category"
+              type === SelectionType.PROFILE ? "+ Add Member" : "+ Add Category"
             }
             isActive={false}
             onClick={() => setIsAddingMember(true)}

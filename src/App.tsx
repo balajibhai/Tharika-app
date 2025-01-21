@@ -2,7 +2,6 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useAppSelector } from "./Hooks/customhooks";
 import AfterAuth from "./Molecules/AfterAuth";
 import AuthPage from "./Organisms/AuthPage";
-import { useEffect } from "react";
 
 const App = () => {
   const { loginState } = useAppSelector((state) => state.authenticationReducer);

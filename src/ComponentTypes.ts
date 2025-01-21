@@ -25,12 +25,14 @@ export const DurationType = {
 export interface MediaItem {
   id: string;
   name: string;
+  category: string;
   type: MediaType;
   url: string;
   duration: typeof DurationType;
+  note: NoteType;
 }
 
-export enum selectionType {
+export enum SelectionType {
   CATEGORY = "category",
   PROFILE = "profile",
 }
@@ -38,4 +40,9 @@ export enum selectionType {
 export interface Profile {
   id: number;
   name: string;
+}
+
+export interface NoteType {
+  title: string;
+  description: string;
 }
