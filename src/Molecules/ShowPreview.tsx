@@ -1,4 +1,4 @@
-import { MediaItem, MediaType } from "../ComponentTypes";
+import { MediaItem, MediaType, NoteFields } from "../ComponentTypes";
 import {
   Box,
   Card,
@@ -8,18 +8,36 @@ import {
   Paper,
 } from "@mui/material";
 import ReactPlayer from "react-player";
+import { RefObject, useState } from "react";
+import { useAppSelector } from "../Hooks/customhooks";
+import { PageNavID } from "../PageNavID";
+import NoteEditMode from "./NoteEditMode";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { RefObject } from "react";
-import EditIcon from "@mui/icons-material/Edit";
+import NoteViewMode from "./NoteViewMode";
 
 type ShowPreviewProps = {
   scrollRef: RefObject<HTMLDivElement>;
   item: MediaItem;
   handleDelete: (id: string) => void;
+  handleUpdate?: (updatedItem: MediaItem) => void;
 };
 
 const ShowPreview = (props: ShowPreviewProps) => {
-  const { item, scrollRef, handleDelete } = props;
+  const { item, scrollRef, handleDelete, handleUpdate } = props;
+  const [isEditing, setIsEditing] = useState(false);
+  const pageSelect = useAppSelector((state) => state.pageSelect.navId);
+
+  // Store edits in local state so we don't overwrite item until Save
+  const [editedFields, setEditedFields] = useState<NoteFields>({
+    name: item.name,
+    date: item.duration.Date,
+    time: item.duration.Time,
+    category: item.category,
+    noteTitle: item.note.title,
+    noteDescription: item.note.description,
+  });
+
+  // Determine if video is in view
   const isInView = (element: HTMLDivElement | null): boolean => {
     if (!element) return false;
     const bounding = element.getBoundingClientRect();
@@ -30,14 +48,68 @@ const ShowPreview = (props: ShowPreviewProps) => {
     );
   };
 
+  // Toggle to edit mode
   const handleEditClick = (event: React.MouseEvent) => {
-    event.stopPropagation(); // Prevent triggering parent click
-    console.log("Edit clicked!");
+    event.stopPropagation(); // stops parent onClick
+    setIsEditing(true);
   };
 
+  // Cancel editing
+  const handleCancel = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    // Reset the editedFields back to original item data
+    setEditedFields({
+      name: item.name,
+      date: item.duration.Date,
+      time: item.duration.Time,
+      category: item.category,
+      noteTitle: item.note.title,
+      noteDescription: item.note.description,
+    });
+    setIsEditing(false);
+  };
+
+  // Save edits
+  const handleSave = (event: React.MouseEvent) => {
+    event.stopPropagation();
+
+    // If you have a parent callback, call it here
+    // to actually update the item in your Redux store or parent state
+    const updatedItem: MediaItem = {
+      ...item,
+      name: editedFields.name,
+      duration: {
+        Date: editedFields.date,
+        Time: editedFields.time,
+      },
+      category: editedFields.category,
+      note: {
+        title: editedFields.noteTitle,
+        description: editedFields.noteDescription,
+      },
+    };
+
+    // If there's a parent callback, call it
+    if (handleUpdate) {
+      handleUpdate(updatedItem);
+    }
+
+    // Or you could directly console.log or do some other local update
+    console.log("Updated item: ", updatedItem);
+
+    setIsEditing(false);
+  };
+
+  // If not editing, the normal Delete click
   const handleDeleteClick = (event: React.MouseEvent) => {
-    event.stopPropagation(); // Prevent triggering parent click
-    console.log("Delete clicked!");
+    event.stopPropagation();
+    console.log("Delete annotation clicked!");
+    console.log("Item", item.id);
+  };
+
+  // onClick for the trash icon on the card (deleting the entire media)
+  const handleCardDeleteClick = () => {
+    handleDelete(item.id);
   };
 
   return (
@@ -48,7 +120,7 @@ const ShowPreview = (props: ShowPreviewProps) => {
         width: 650,
         height: 250,
         cursor: "pointer",
-        // Show annotation icons on hover
+        // Show annotation icons (and text) on hover
         "&:hover .annotation-icons": {
           opacity: 1,
           visibility: "visible",
@@ -66,10 +138,7 @@ const ShowPreview = (props: ShowPreviewProps) => {
       >
         <CardHeader
           action={
-            <IconButton
-              aria-label="delete"
-              onClick={() => handleDelete(item.id)}
-            >
+            <IconButton aria-label="delete" onClick={handleCardDeleteClick}>
               <DeleteIcon />
             </IconButton>
           }
@@ -95,39 +164,43 @@ const ShowPreview = (props: ShowPreviewProps) => {
           </Box>
         )}
       </Card>
-      <Box
-        className="annotation-icons"
-        sx={{
-          position: "absolute",
-          top: 8,
-          display: "flex",
-          gap: 1,
-          p: 0.5,
-          borderRadius: 1,
-          backgroundColor: "background.paper",
-          boxShadow: 2,
-          opacity: 0,
-          visibility: "hidden",
-          height: "auto",
-          transition: "opacity 0.2s ease-in-out, visibility 0.2s ease-in-out",
-        }}
-      >
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <div>{item.name}</div>
-          <div>{item.duration.Date}</div>
-          <div>{item.duration.Time}</div>
-          <div>{item.category}</div>
-          <div>{item.note.title}</div>
-          <div>{item.note.description}</div>
-        </div>
 
-        <IconButton color="primary" size="small" onClick={handleEditClick}>
-          <EditIcon fontSize="small" />
-        </IconButton>
-        <IconButton color="error" size="small" onClick={handleDeleteClick}>
-          <DeleteIcon fontSize="small" />
-        </IconButton>
-      </Box>
+      {pageSelect !== PageNavID.MEMORY && (
+        <Box
+          className="annotation-icons"
+          sx={{
+            position: "absolute",
+            top: 8,
+            left: 8,
+            display: "flex",
+            flexDirection: "column",
+            gap: 1,
+            p: 1,
+            borderRadius: 1,
+            backgroundColor: "background.paper",
+            boxShadow: 2,
+            opacity: 0,
+            visibility: "hidden",
+            transition: "opacity 0.2s ease-in-out, visibility 0.2s ease-in-out",
+            maxWidth: 250,
+          }}
+        >
+          {isEditing ? (
+            <NoteEditMode
+              editedFields={editedFields}
+              setEditedFields={setEditedFields}
+              handleSave={handleSave}
+              handleCancel={handleCancel}
+            />
+          ) : (
+            <NoteViewMode
+              item={item}
+              handleEditClick={handleEditClick}
+              handleDeleteClick={handleDeleteClick}
+            />
+          )}
+        </Box>
+      )}
     </Paper>
   );
 };

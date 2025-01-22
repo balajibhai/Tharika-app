@@ -137,6 +137,7 @@ const AddMemory = () => {
           listOfMedia={previewMediaList}
           sectionName="Preview"
           setMediaList={setPreviewMediaList}
+          height="200px"
         />
       )}
       <div style={{ display: "flex", justifyContent: "center" }}>

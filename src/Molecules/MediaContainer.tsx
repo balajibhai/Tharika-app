@@ -87,6 +87,7 @@ const MediaContainer = (props: MediaContainerProps) => {
               listOfMedia={listOfMedia}
               sectionName=""
               mediaContainerName={mediaContainerName}
+              height="700px"
             />
           )}
         </DialogContent>

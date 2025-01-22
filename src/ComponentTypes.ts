@@ -46,3 +46,12 @@ export interface NoteType {
   title: string;
   description: string;
 }
+
+export interface NoteFields {
+  name: string;
+  date: string;
+  time: string;
+  category: string;
+  noteTitle: string;
+  noteDescription: string;
+}

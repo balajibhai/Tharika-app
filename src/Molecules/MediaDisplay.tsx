@@ -11,10 +11,12 @@ type MediaDisplayProps = {
   sectionName: string;
   mediaContainerName?: string;
   setMediaList?: React.Dispatch<React.SetStateAction<MediaItem[]>>;
+  height: string;
 };
 
 const MediaDisplay = (props: MediaDisplayProps) => {
-  const { listOfMedia, sectionName, mediaContainerName, setMediaList } = props;
+  const { listOfMedia, sectionName, mediaContainerName, setMediaList, height } =
+    props;
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const dispatch = useAppDispatch();
   const [currentMediaName, setCurrentMediaName] = useState("");
@@ -42,7 +44,7 @@ const MediaDisplay = (props: MediaDisplayProps) => {
       <Box
         ref={scrollRef}
         sx={{
-          height: "700px",
+          height: { height },
           width: "700px",
           overflowY: "auto",
           border: "1px solid #ddd",
