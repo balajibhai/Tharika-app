@@ -42,7 +42,8 @@ const MediaDisplay = (props: MediaDisplayProps) => {
       <Box
         ref={scrollRef}
         sx={{
-          maxHeight: "400px",
+          height: "700px",
+          width: "700px",
           overflowY: "auto",
           border: "1px solid #ddd",
           padding: "10px",
