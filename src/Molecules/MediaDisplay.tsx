@@ -8,15 +8,13 @@ import { handleMediaDelete } from "../Redux/mediauploadhandler";
 
 type MediaDisplayProps = {
   listOfMedia: MediaItem[];
-  sectionName: string;
-  mediaContainerName?: string;
+  mediaContainerName: string;
   setMediaList?: React.Dispatch<React.SetStateAction<MediaItem[]>>;
   height: string;
 };
 
 const MediaDisplay = (props: MediaDisplayProps) => {
-  const { listOfMedia, sectionName, mediaContainerName, setMediaList, height } =
-    props;
+  const { listOfMedia, mediaContainerName, setMediaList, height } = props;
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const dispatch = useAppDispatch();
   const [currentMediaName, setCurrentMediaName] = useState("");
@@ -29,18 +27,22 @@ const MediaDisplay = (props: MediaDisplayProps) => {
 
   const handleDelete = useCallback(
     (id: string) => {
-      if (sectionName === "Preview" && setMediaList) {
+      if (mediaContainerName === "Preview" && setMediaList) {
         setMediaList((prev) => prev.filter((item) => item.id !== id));
       } else {
         dispatch(handleMediaDelete({ id, selectedValue: currentMediaName }));
       }
     },
-    [currentMediaName, setMediaList, sectionName, dispatch]
+    [currentMediaName, setMediaList, dispatch, mediaContainerName]
   );
 
   return (
     <Box sx={{ padding: "20px" }}>
-      <Text content={sectionName} variant="h6" sx={{ fontWeight: "bold" }} />
+      <Text
+        content={mediaContainerName}
+        variant="h6"
+        sx={{ fontWeight: "bold" }}
+      />
       <Box
         ref={scrollRef}
         sx={{

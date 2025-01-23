@@ -135,9 +135,9 @@ const AddMemory = () => {
       {showUploadButton && (
         <MediaDisplay
           listOfMedia={previewMediaList}
-          sectionName="Preview"
           setMediaList={setPreviewMediaList}
           height="200px"
+          mediaContainerName="Preview"
         />
       )}
       <div style={{ display: "flex", justifyContent: "center" }}>

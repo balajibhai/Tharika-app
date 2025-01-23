@@ -85,7 +85,6 @@ const MediaContainer = (props: MediaContainerProps) => {
           {listOfMedia.length > 0 && (
             <MediaDisplay
               listOfMedia={listOfMedia}
-              sectionName=""
               mediaContainerName={mediaContainerName}
               height="700px"
             />
