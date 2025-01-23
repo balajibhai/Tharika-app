@@ -14,7 +14,7 @@ import { PageNavID } from "../PageNavID";
 import NoteEditMode from "./NoteEditMode";
 import DeleteIcon from "@mui/icons-material/Delete";
 import NoteViewMode from "./NoteViewMode";
-import { handleMediaDelete } from "../Redux/mediauploadhandler";
+import { handleMediaDelete, handleNoteEdit } from "../Redux/mediauploadhandler";
 
 type ShowPreviewProps = {
   scrollRef: RefObject<HTMLDivElement>;
@@ -25,8 +25,7 @@ type ShowPreviewProps = {
 };
 
 const ShowPreview = (props: ShowPreviewProps) => {
-  const { item, scrollRef, handleDelete, handleUpdate, mediaContainerName } =
-    props;
+  const { item, scrollRef, handleDelete, mediaContainerName } = props;
   const [isEditing, setIsEditing] = useState(false);
   const pageSelect = useAppSelector((state) => state.pageSelect.navId);
   const dispatch = useAppDispatch();
@@ -98,10 +97,13 @@ const ShowPreview = (props: ShowPreviewProps) => {
       },
     };
 
-    // If there's a parent callback, call it
-    if (handleUpdate) {
-      handleUpdate(updatedItem);
-    }
+    dispatch(
+      handleNoteEdit({
+        id: item.id,
+        selectedValue: mediaContainerName,
+        updatedValue: updatedItem,
+      })
+    );
 
     // Or you could directly console.log or do some other local update
     console.log("Updated item: ", updatedItem);
@@ -198,6 +200,7 @@ const ShowPreview = (props: ShowPreviewProps) => {
             visibility: "hidden",
             transition: "opacity 0.2s ease-in-out, visibility 0.2s ease-in-out",
             maxWidth: 250,
+            zIndex: 9999,
           }}
         >
           {isEditing ? (

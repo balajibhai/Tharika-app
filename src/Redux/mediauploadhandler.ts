@@ -11,6 +11,9 @@ const initialState: MediaCategoryState = {
   joyfulMedia: [],
 };
 
+const indexFinder = (items: MediaItem[], id: string) =>
+  items.findIndex((item) => item.id === id);
+
 const mediaUploaderSlice = createSlice({
   name: "uploadMedia",
   initialState,
@@ -39,19 +42,28 @@ const mediaUploaderSlice = createSlice({
           (item) => item.id !== id
         ); // Delete media
       } else {
-        // Otherwise, clear out note fields for the matched item
-        const itemIndex = state[selectedValue].findIndex(
-          (item) => item.id === id
-        );
+        const itemIndex = indexFinder(state[selectedValue], id);
         if (itemIndex !== -1) {
           state[selectedValue][itemIndex].note.title = "";
           state[selectedValue][itemIndex].note.description = "";
         }
       }
     },
+    handleNoteEdit: (
+      state,
+      action: PayloadAction<{
+        id: string;
+        selectedValue: string;
+        updatedValue: MediaItem;
+      }>
+    ) => {
+      const { id, selectedValue, updatedValue } = action.payload;
+      const itemIndex = indexFinder(state[selectedValue], id);
+      state[selectedValue][itemIndex] = updatedValue;
+    },
   },
 });
 
-export const { handleMediaUpload, handleMediaDelete } =
+export const { handleMediaUpload, handleMediaDelete, handleNoteEdit } =
   mediaUploaderSlice.actions;
 export default mediaUploaderSlice.reducer;
