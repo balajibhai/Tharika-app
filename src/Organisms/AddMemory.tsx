@@ -5,6 +5,7 @@ import DateTimePicker from "../Molecules/DateTimePicker";
 import MediaDisplay from "../Molecules/MediaDisplay";
 import {
   DurationType,
+  MediacontainerType,
   MediaItem,
   MediaType,
   NoteType,
@@ -199,7 +200,7 @@ const AddMemory = () => {
             listOfMedia={previewMediaList}
             setMediaList={setPreviewMediaList}
             height="200px"
-            mediaContainerName="Preview"
+            mediaContainerName={MediacontainerType.PREVIEW}
           />
         )}
       </div>

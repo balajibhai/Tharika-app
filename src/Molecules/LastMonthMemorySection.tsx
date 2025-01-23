@@ -3,6 +3,7 @@ import Image from "../Atoms/Image";
 import MomentLabel from "./MomentLabel";
 import MediaContainer from "./MediaContainer";
 import { useAppSelector } from "../Hooks/customhooks";
+import { MediacontainerType } from "../ComponentTypes";
 
 const imageStyle = {
   width: 250,
@@ -30,7 +31,7 @@ const LastMonthMemorySection = () => {
         onClose={onCloseViewAllMedia}
         title="Last month memory"
         listOfMedia={LastMonthMedia}
-        mediaContainerName="LastMonthMedia"
+        mediaContainerName={MediacontainerType.LASTMONTH}
       />
     </div>
   );

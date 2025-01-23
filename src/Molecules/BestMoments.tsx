@@ -7,6 +7,7 @@ import MediaContainer from "./MediaContainer";
 import { clickHandler } from "../Redux/pagenavigation";
 import { useAppDispatch, useAppSelector } from "../Hooks/customhooks";
 import { PageNavID } from "../PageNavID";
+import { MediacontainerType } from "../ComponentTypes";
 
 const imageStyle = {
   width: 542,
@@ -45,7 +46,7 @@ const BestMoments = () => {
         onClose={onCloseViewAllMedia}
         title="Joyful Moments"
         listOfMedia={joyfulMedia}
-        mediaContainerName="joyfulMedia"
+        mediaContainerName={MediacontainerType.JOYFUL}
       />
     </div>
   );

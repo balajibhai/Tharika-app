@@ -55,3 +55,10 @@ export interface NoteFields {
   noteTitle: string;
   noteDescription: string;
 }
+
+export enum MediacontainerType {
+  PREVIEW = "Preview",
+  ALLMEDIA = "allMedia",
+  LASTMONTH = "LastMonthMedia",
+  JOYFUL = "joyfulMedia",
+}

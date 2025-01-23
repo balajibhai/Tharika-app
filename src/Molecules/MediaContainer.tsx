@@ -9,7 +9,7 @@ import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 import DialogContent from "@mui/material/DialogContent";
 import MediaDisplay from "./MediaDisplay";
-import { MediaItem } from "../ComponentTypes";
+import { MediacontainerType, MediaItem } from "../ComponentTypes";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -25,7 +25,7 @@ type MediaContainerProps = {
   onClose: () => void;
   title: string;
   listOfMedia: MediaItem[];
-  mediaContainerName: string;
+  mediaContainerName: MediacontainerType;
 };
 
 const MediaContainer = (props: MediaContainerProps) => {

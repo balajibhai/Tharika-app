@@ -3,6 +3,7 @@ import Image from "../Atoms/Image";
 import LightBorderCard from "../Atoms/LightBorderCard";
 import { useAppSelector } from "../Hooks/customhooks";
 import MediaContainer from "./MediaContainer";
+import { MediacontainerType } from "../ComponentTypes";
 
 const imageStyle = {
   width: 80,
@@ -51,7 +52,7 @@ const Subcard = () => {
         onClose={onCloseViewAllMedia}
         title="All media"
         listOfMedia={allMedia}
-        mediaContainerName="allMedia"
+        mediaContainerName={MediacontainerType.ALLMEDIA}
       />
     </LightBorderCard>
   );
