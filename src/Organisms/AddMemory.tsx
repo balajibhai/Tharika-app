@@ -127,75 +127,87 @@ const AddMemory = () => {
     <div
       style={{
         display: "flex",
-        flexDirection: "column",
+        flexDirection: "row",
         height: "100vh",
         paddingTop: "100px",
       }}
     >
-      {showUploadButton && (
-        <MediaDisplay
-          listOfMedia={previewMediaList}
-          setMediaList={setPreviewMediaList}
-          height="200px"
-          mediaContainerName="Preview"
-        />
-      )}
-      <div style={{ display: "flex", justifyContent: "center" }}>
+      <div>
         {showUploadButton && (
-          <CustomButton content="Upload" onClick={selectLocation} />
+          <MediaDisplay
+            listOfMedia={previewMediaList}
+            setMediaList={setPreviewMediaList}
+            height="200px"
+            mediaContainerName="Preview"
+          />
         )}
-      </div>
-      <SuccessNotification
-        onNotificationClose={onNotificationClose}
-        showSuccessNotification={showSuccessNotification}
-      />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <div
-          style={{
-            width: "326px",
-          }}
-        >
-          <Text content="Add Photo" variant="h6" sx={{ fontWeight: "bold" }} />
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          {showUploadButton && (
+            <CustomButton content="Upload" onClick={selectLocation} />
+          )}
         </div>
       </div>
       <div>
-        <DottedSquares onFilePreview={handleFilePreview} />
-      </div>
-      <ProfileSelector
-        onSelection={handleProfileSelection}
-        type={SelectionType.PROFILE}
-        selector={profileselector}
-        onUpdate={onUpdate}
-      />
-      <ProfileSelector
-        onSelection={handleProfileSelection}
-        type={SelectionType.CATEGORY}
-        selector={categorySelector}
-        onUpdate={onUpdate}
-      />
-      <div
-        style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}
-      >
-        <Note
-          title={note.title}
-          description={note.description}
-          onChange={handleNoteChange}
+        <SuccessNotification
+          onNotificationClose={onNotificationClose}
+          showSuccessNotification={showSuccessNotification}
+        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <div
+            style={{
+              width: "326px",
+            }}
+          >
+            <Text
+              content="Add Photo"
+              variant="h6"
+              sx={{ fontWeight: "bold" }}
+            />
+          </div>
+        </div>
+        <div>
+          <DottedSquares onFilePreview={handleFilePreview} />
+        </div>
+        <ProfileSelector
+          onSelection={handleProfileSelection}
+          type={SelectionType.PROFILE}
+          selector={profileselector}
+          onUpdate={onUpdate}
+        />
+        <ProfileSelector
+          onSelection={handleProfileSelection}
+          type={SelectionType.CATEGORY}
+          selector={categorySelector}
+          onUpdate={onUpdate}
+        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "10px",
+          }}
+        >
+          <Note
+            title={note.title}
+            description={note.description}
+            onChange={handleNoteChange}
+          />
+        </div>
+        <DateTimePicker
+          handleDuration={handleDuration}
+          buttonDisable={previewMediaList.length === 0}
+        />
+        <UploadLocationSelector
+          openContainer={openUploadLocation}
+          onSelect={handleFileUpload}
+          noSelection={() => setOpenUploadLocation(!openUploadLocation)}
         />
       </div>
-      <DateTimePicker
-        handleDuration={handleDuration}
-        buttonDisable={previewMediaList.length === 0}
-      />
-      <UploadLocationSelector
-        openContainer={openUploadLocation}
-        onSelect={handleFileUpload}
-        noSelection={() => setOpenUploadLocation(!openUploadLocation)}
-      />
     </div>
   );
 };

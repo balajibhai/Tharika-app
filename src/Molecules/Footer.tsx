@@ -17,7 +17,7 @@ const FooterStyle = styled(Box)(({ theme }) => ({
   left: 0,
   right: 0,
   zIndex: 1000,
-  marginTop: 500,
+  marginTop: 150,
 }));
 
 const Footer = () => {
