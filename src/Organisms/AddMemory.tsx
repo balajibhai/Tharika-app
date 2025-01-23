@@ -21,12 +21,9 @@ import Note from "../Atoms/Note";
 
 const AddMemory = () => {
   const [previewMediaList, setPreviewMediaList] = useState<MediaItem[]>([]);
-  const [saveButtonclick, setSaveButtonclick] = useState<boolean>(false);
   const [showUploadButton, setShowUploadButton] = useState(false);
   const [showSuccessNotification, setShowSuccessNotification] = useState(false);
   const [openUploadLocation, setOpenUploadLocation] = useState(false);
-  const [currentProfile, setCurrentProfile] = useState("");
-  const [currentCategory, setCurrentCategory] = useState("");
   const dispatch = useAppDispatch();
   const [profileselector, setProfileSelector] = useState<Profile[]>([
     { id: 1, name: "Jenny" },
@@ -40,15 +37,12 @@ const AddMemory = () => {
   const [note, setNote] = useState<NoteType>({ title: "", description: "" });
 
   useEffect(() => {
-    if (previewMediaList.length === 0) {
-      setSaveButtonclick(false);
-    }
-    if (previewMediaList.length > 0 && saveButtonclick) {
+    if (previewMediaList.length > 0) {
       setShowUploadButton(true);
     } else {
       setShowUploadButton(false);
     }
-  }, [previewMediaList.length, saveButtonclick]);
+  }, [previewMediaList.length]);
 
   const handleFilePreview = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>, type: MediaType) => {
@@ -74,14 +68,12 @@ const AddMemory = () => {
 
   const handleDuration = useCallback(
     (value: typeof DurationType) => {
-      previewMediaList[previewMediaList.length - 1].duration = value;
-      previewMediaList[previewMediaList.length - 1].name = currentProfile;
-      previewMediaList[previewMediaList.length - 1].category = currentCategory;
-      previewMediaList[previewMediaList.length - 1].note = note;
-      setPreviewMediaList([...previewMediaList]);
-      setSaveButtonclick(true);
+      if (previewMediaList.length) {
+        previewMediaList[previewMediaList.length - 1].duration = value;
+        setPreviewMediaList([...previewMediaList]);
+      }
     },
-    [currentProfile, previewMediaList, currentCategory, note]
+    [previewMediaList]
   );
 
   const handleFileUpload = useCallback(
@@ -103,13 +95,17 @@ const AddMemory = () => {
     setOpenUploadLocation(!openUploadLocation);
   }, [openUploadLocation]);
 
-  const handleProfileSelection = useCallback((name: string, type: string) => {
-    if (type === SelectionType.PROFILE) {
-      setCurrentProfile(name);
-    } else {
-      setCurrentCategory(name);
-    }
-  }, []);
+  const handleProfileSelection = useCallback(
+    (name: string, type: string) => {
+      if (type === SelectionType.PROFILE) {
+        previewMediaList[previewMediaList.length - 1].name = name;
+      } else {
+        previewMediaList[previewMediaList.length - 1].category = name;
+      }
+      setPreviewMediaList([...previewMediaList]);
+    },
+    [previewMediaList]
+  );
 
   const onUpdate = (name: string, type: SelectionType) => {
     if (type === SelectionType.PROFILE) {
@@ -121,6 +117,8 @@ const AddMemory = () => {
 
   const handleNoteChange = (field: "title" | "description", value: string) => {
     setNote((prev) => ({ ...prev, [field]: value }));
+    previewMediaList[previewMediaList.length - 1].note[field] = value;
+    setPreviewMediaList([...previewMediaList]);
   };
 
   return (
@@ -132,21 +130,6 @@ const AddMemory = () => {
         paddingTop: "100px",
       }}
     >
-      <div>
-        {showUploadButton && (
-          <MediaDisplay
-            listOfMedia={previewMediaList}
-            setMediaList={setPreviewMediaList}
-            height="200px"
-            mediaContainerName="Preview"
-          />
-        )}
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          {showUploadButton && (
-            <CustomButton content="Upload" onClick={selectLocation} />
-          )}
-        </div>
-      </div>
       <div>
         <SuccessNotification
           onNotificationClose={onNotificationClose}
@@ -198,15 +181,27 @@ const AddMemory = () => {
             onChange={handleNoteChange}
           />
         </div>
-        <DateTimePicker
-          handleDuration={handleDuration}
-          buttonDisable={previewMediaList.length === 0}
-        />
+        <DateTimePicker handleDuration={handleDuration} />
         <UploadLocationSelector
           openContainer={openUploadLocation}
           onSelect={handleFileUpload}
           noSelection={() => setOpenUploadLocation(!openUploadLocation)}
         />
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          {showUploadButton && (
+            <CustomButton content="Upload" onClick={selectLocation} />
+          )}
+        </div>
+      </div>
+      <div>
+        {showUploadButton && (
+          <MediaDisplay
+            listOfMedia={previewMediaList}
+            setMediaList={setPreviewMediaList}
+            height="200px"
+            mediaContainerName="Preview"
+          />
+        )}
       </div>
     </div>
   );

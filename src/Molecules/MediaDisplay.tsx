@@ -54,16 +54,13 @@ const MediaDisplay = (props: MediaDisplayProps) => {
           borderRadius: "5px",
         }}
       >
-        {listOfMedia.map(
-          (item) =>
-            item.duration.Time && (
-              <ShowPreview
-                scrollRef={scrollRef}
-                item={item}
-                handleDelete={handleDelete}
-              />
-            )
-        )}
+        {listOfMedia.map((item) => (
+          <ShowPreview
+            scrollRef={scrollRef}
+            item={item}
+            handleDelete={handleDelete}
+          />
+        ))}
       </Box>
     </Box>
   );

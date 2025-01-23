@@ -2,16 +2,14 @@ import React, { useCallback, useState } from "react";
 import { TextField, Box, MenuItem, InputAdornment } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import CustomButton from "../Atoms/CustomButton";
 import { DurationEnumType, DurationType } from "../ComponentTypes";
 
 type DateTimePickerProps = {
   handleDuration: (value: typeof DurationType) => void;
-  buttonDisable: boolean;
 };
 
 const DateTimePicker = (props: DateTimePickerProps) => {
-  const { handleDuration, buttonDisable } = props;
+  const { handleDuration } = props;
   const [dateTime, setDateTime] = useState<typeof DurationType>({
     Date: "01/01/01",
     Time: "06:00AM",
@@ -45,13 +43,10 @@ const DateTimePicker = (props: DateTimePickerProps) => {
         ...dateTime,
         [type]: event.target.value,
       });
+      handleDuration(dateTime);
     },
-    [dateTime]
+    [dateTime, handleDuration]
   );
-
-  const onSave = useCallback(() => {
-    handleDuration(dateTime);
-  }, [handleDuration, dateTime]);
 
   return (
     <Box
@@ -106,8 +101,6 @@ const DateTimePicker = (props: DateTimePickerProps) => {
           </MenuItem>
         ))}
       </TextField>
-
-      <CustomButton content="Save" onClick={onSave} disabled={buttonDisable} />
     </Box>
   );
 };
