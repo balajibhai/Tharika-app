@@ -59,6 +59,7 @@ const MediaDisplay = (props: MediaDisplayProps) => {
             scrollRef={scrollRef}
             item={item}
             handleDelete={handleDelete}
+            mediaContainerName={mediaContainerName}
           />
         ))}
       </Box>

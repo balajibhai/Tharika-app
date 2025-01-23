@@ -9,23 +9,32 @@ import {
 } from "@mui/material";
 import ReactPlayer from "react-player";
 import { RefObject, useState } from "react";
-import { useAppSelector } from "../Hooks/customhooks";
+import { useAppDispatch, useAppSelector } from "../Hooks/customhooks";
 import { PageNavID } from "../PageNavID";
 import NoteEditMode from "./NoteEditMode";
 import DeleteIcon from "@mui/icons-material/Delete";
 import NoteViewMode from "./NoteViewMode";
+import { handleMediaDelete } from "../Redux/mediauploadhandler";
 
 type ShowPreviewProps = {
   scrollRef: RefObject<HTMLDivElement>;
   item: MediaItem;
   handleDelete: (id: string) => void;
   handleUpdate?: (updatedItem: MediaItem) => void;
+  mediaContainerName: string;
 };
 
 const ShowPreview = (props: ShowPreviewProps) => {
-  const { item, scrollRef, handleDelete, handleUpdate } = props;
+  const { item, scrollRef, handleDelete, handleUpdate, mediaContainerName } =
+    props;
   const [isEditing, setIsEditing] = useState(false);
   const pageSelect = useAppSelector((state) => state.pageSelect.navId);
+  const dispatch = useAppDispatch();
+  const cardHeader =
+    pageSelect === PageNavID.MEMORY
+      ? `${item.name} ${item.duration.Date} ${item.duration.Time} ${item.category} ${item.note.title} ${item.note.description}`
+      : "";
+  const showNote = pageSelect !== PageNavID.MEMORY && item.note.title !== "";
 
   // Store edits in local state so we don't overwrite item until Save
   const [editedFields, setEditedFields] = useState<NoteFields>({
@@ -103,8 +112,13 @@ const ShowPreview = (props: ShowPreviewProps) => {
   // If not editing, the normal Delete click
   const handleDeleteClick = (event: React.MouseEvent) => {
     event.stopPropagation();
-    console.log("Delete annotation clicked!");
-    console.log("Item", item.id);
+    dispatch(
+      handleMediaDelete({
+        id: item.id,
+        selectedValue: mediaContainerName,
+        note: true,
+      })
+    );
   };
 
   // onClick for the trash icon on the card (deleting the entire media)
@@ -137,7 +151,7 @@ const ShowPreview = (props: ShowPreviewProps) => {
         }}
       >
         <CardHeader
-          title={`${item.name} ${item.duration.Date} ${item.duration.Time} ${item.category} ${item.note.title} ${item.note.description}`}
+          title={cardHeader}
           action={
             <IconButton aria-label="delete" onClick={handleCardDeleteClick}>
               <DeleteIcon />
@@ -166,7 +180,7 @@ const ShowPreview = (props: ShowPreviewProps) => {
         )}
       </Card>
 
-      {pageSelect !== PageNavID.MEMORY && (
+      {showNote && (
         <Box
           className="annotation-icons"
           sx={{

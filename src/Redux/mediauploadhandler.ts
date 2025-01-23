@@ -30,12 +30,24 @@ const mediaUploaderSlice = createSlice({
       action: PayloadAction<{
         id: string;
         selectedValue: string;
+        note?: boolean;
       }>
     ) => {
-      const { id, selectedValue } = action.payload;
-      state[selectedValue] = state[selectedValue].filter(
-        (item) => item.id !== id
-      ); // Delete media
+      const { id, selectedValue, note } = action.payload;
+      if (!note) {
+        state[selectedValue] = state[selectedValue].filter(
+          (item) => item.id !== id
+        ); // Delete media
+      } else {
+        // Otherwise, clear out note fields for the matched item
+        const itemIndex = state[selectedValue].findIndex(
+          (item) => item.id === id
+        );
+        if (itemIndex !== -1) {
+          state[selectedValue][itemIndex].note.title = "";
+          state[selectedValue][itemIndex].note.description = "";
+        }
+      }
     },
   },
 });
