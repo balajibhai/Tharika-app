@@ -96,7 +96,6 @@ const ShowPreview = (props: ShowPreviewProps) => {
         description: editedFields.noteDescription,
       },
     };
-
     dispatch(
       handleNoteEdit({
         id: item.id,
@@ -104,10 +103,6 @@ const ShowPreview = (props: ShowPreviewProps) => {
         updatedValue: updatedItem,
       })
     );
-
-    // Or you could directly console.log or do some other local update
-    console.log("Updated item: ", updatedItem);
-
     setIsEditing(false);
   };
 

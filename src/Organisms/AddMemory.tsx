@@ -26,7 +26,7 @@ const AddMemory = () => {
   const [showSuccessNotification, setShowSuccessNotification] = useState(false);
   const [openUploadLocation, setOpenUploadLocation] = useState(false);
   const dispatch = useAppDispatch();
-  const [profileselector, setProfileSelector] = useState<Profile[]>([
+  const [profiles, setProfiles] = useState<Profile[]>([
     { id: 1, name: "Jenny" },
     { id: 2, name: "Jacob" },
     { id: 3, name: "Rustyn" },
@@ -110,7 +110,7 @@ const AddMemory = () => {
 
   const onUpdate = (name: string, type: SelectionType) => {
     if (type === SelectionType.PROFILE) {
-      setProfileSelector([...profileselector, { id: Date.now(), name }]);
+      setProfiles([...profiles, { id: Date.now(), name }]);
     } else {
       setCategorySelector([...categorySelector, { id: Date.now(), name }]);
     }
@@ -162,7 +162,7 @@ const AddMemory = () => {
         <ProfileSelector
           onSelection={handleProfileSelection}
           type={SelectionType.PROFILE}
-          selector={profileselector}
+          selector={profiles}
           onUpdate={onUpdate}
         />
         <ProfileSelector
