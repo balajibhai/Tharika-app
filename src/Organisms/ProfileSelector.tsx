@@ -38,10 +38,15 @@ const ProfileSelector = (props: ProfileSelectorProps) => {
 
   const profileCardClick = useCallback(
     (id: number | null, name: string) => {
-      setActiveProfile(id);
-      onSelection(name, type);
+      if (id === activeProfile) {
+        setActiveProfile(null);
+        onSelection("", type);
+      } else {
+        setActiveProfile(id);
+        onSelection(name, type);
+      }
     },
-    [onSelection, type]
+    [onSelection, type, activeProfile]
   );
 
   return (

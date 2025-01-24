@@ -34,7 +34,7 @@ const MediaDisplay = (props: MediaDisplayProps) => {
   );
 
   return (
-    <Box sx={{ padding: "20px" }}>
+    <Box sx={{ padding: "20px", position: "fixed" }}>
       <Text content={previewTitle} variant="h6" sx={{ fontWeight: "bold" }} />
       <Box
         ref={scrollRef}

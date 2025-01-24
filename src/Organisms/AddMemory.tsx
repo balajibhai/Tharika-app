@@ -129,6 +129,8 @@ const AddMemory = () => {
         flexDirection: "row",
         height: "100vh",
         paddingTop: "100px",
+        justifyContent: "center",
+        width: "60%",
       }}
     >
       <div>
@@ -199,7 +201,7 @@ const AddMemory = () => {
           <MediaDisplay
             listOfMedia={previewMediaList}
             setMediaList={setPreviewMediaList}
-            height="200px"
+            height="270px"
             mediaContainerName={MediacontainerType.PREVIEW}
           />
         )}
