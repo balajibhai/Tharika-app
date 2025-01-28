@@ -9,16 +9,17 @@ import {
   MediaItem,
   MediaType,
   NoteType,
-  Profile,
   SelectionType,
 } from "../ComponentTypes";
 import CustomButton from "../Atoms/CustomButton";
 import SuccessNotification from "../Atoms/SuccessNotification";
 import UploadLocationSelector from "../Molecules/UploadLocationSelector";
 import ProfileSelector from "./ProfileSelector";
-import { useAppDispatch } from "../Hooks/customhooks";
+import { useAppDispatch, useAppSelector } from "../Hooks/customhooks";
 import { handleMediaUpload } from "../Redux/mediauploadhandler";
 import Note from "../Atoms/Note";
+import { addProfile } from "../Redux/profileselector";
+import { addCategory } from "../Redux/categoryselector";
 
 const AddMemory = () => {
   const [previewMediaList, setPreviewMediaList] = useState<MediaItem[]>([]);
@@ -26,15 +27,9 @@ const AddMemory = () => {
   const [showSuccessNotification, setShowSuccessNotification] = useState(false);
   const [openUploadLocation, setOpenUploadLocation] = useState(false);
   const dispatch = useAppDispatch();
-  const [profiles, setProfiles] = useState<Profile[]>([
-    { id: 1, name: "Jenny" },
-    { id: 2, name: "Jacob" },
-    { id: 3, name: "Rustyn" },
-    { id: 4, name: "Ileana" },
-  ]);
-  const [categorySelector, setCategorySelector] = useState<Profile[]>([
-    { id: 1, name: "Proud moments" },
-  ]);
+  const { profiles } = useAppSelector((state) => state.profileSelect);
+  const { categories } = useAppSelector((state) => state.categorySelect);
+
   const [note, setNote] = useState<NoteType>({ title: "", description: "" });
 
   useEffect(() => {
@@ -110,9 +105,9 @@ const AddMemory = () => {
 
   const onUpdate = (name: string, type: SelectionType) => {
     if (type === SelectionType.PROFILE) {
-      setProfiles([...profiles, { id: Date.now(), name }]);
+      dispatch(addProfile({ id: Date.now(), name }));
     } else {
-      setCategorySelector([...categorySelector, { id: Date.now(), name }]);
+      dispatch(addCategory({ id: Date.now(), name }));
     }
   };
 
@@ -168,7 +163,7 @@ const AddMemory = () => {
         <ProfileSelector
           onSelection={handleProfileSelection}
           type={SelectionType.CATEGORY}
-          selector={categorySelector}
+          selector={categories}
           onUpdate={onUpdate}
         />
         <div
