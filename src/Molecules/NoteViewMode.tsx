@@ -16,9 +16,9 @@ const NoteViewMode = (props: NoteViewModeProps) => {
       {/* Static text fields */}
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <div>{item.name}</div>
+        <div>{item.category}</div>
         <div>{item.duration.Date}</div>
         <div>{item.duration.Time}</div>
-        <div>{item.category}</div>
         <div>{item.note.title}</div>
         <div>{item.note.description}</div>
       </Box>

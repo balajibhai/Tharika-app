@@ -1,5 +1,12 @@
-import { Box, Button, TextField } from "@mui/material";
-import { NoteFields } from "../ComponentTypes";
+import { Box, Button } from "@mui/material";
+import { useCallback } from "react";
+import Note from "../Atoms/Note";
+import { DurationType, NoteFields, SelectionType } from "../ComponentTypes";
+import { useAppDispatch, useAppSelector } from "../Hooks/customhooks";
+import ProfileSelector from "../Organisms/ProfileSelector";
+import { addCategory } from "../Redux/categoryselector";
+import { addProfile } from "../Redux/profileselector";
+import DateTimePicker from "./DateTimePicker";
 
 type NoteEditModeProps = {
   editedFields: NoteFields;
@@ -10,66 +17,73 @@ type NoteEditModeProps = {
 
 const NoteEditMode = (props: NoteEditModeProps) => {
   const { editedFields, handleCancel, handleSave, setEditedFields } = props;
+  const { profiles } = useAppSelector((state) => state.profileSelect);
+  const { categories } = useAppSelector((state) => state.categorySelect);
+  const dispatch = useAppDispatch();
+
+  const onUpdate = (name: string, type: SelectionType) => {
+    if (type === SelectionType.PROFILE) {
+      dispatch(addProfile({ id: Date.now(), name }));
+    } else {
+      dispatch(addCategory({ id: Date.now(), name }));
+    }
+  };
+
+  const onProfileChange = useCallback(
+    (name: string, type: string) => {
+      if (type === SelectionType.PROFILE) {
+        setEditedFields((prev) => ({ ...prev, name: name }));
+      } else {
+        setEditedFields((prev) => ({ ...prev, category: name }));
+      }
+    },
+    [setEditedFields]
+  );
+
+  const onTimeChange = useCallback(
+    (value: typeof DurationType) => {
+      setEditedFields((prev) => ({
+        ...prev,
+        date: value.Date,
+        time: value.Time,
+      }));
+    },
+    [setEditedFields]
+  );
+
+  const onNoteChange = (field: "title" | "description", value: string) => {
+    if (field === "title") {
+      setEditedFields((prev) => ({
+        ...prev,
+        noteTitle: value,
+      }));
+    } else {
+      setEditedFields((prev) => ({
+        ...prev,
+        noteDescription: value,
+      }));
+    }
+  };
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-      <TextField
-        label="Name"
-        size="small"
-        value={editedFields.name}
-        onChange={(e) =>
-          setEditedFields((prev) => ({ ...prev, name: e.target.value }))
-        }
+      <ProfileSelector
+        onSelection={onProfileChange}
+        type={SelectionType.PROFILE}
+        selector={profiles}
+        onUpdate={onUpdate}
       />
-      <TextField
-        label="Date"
-        size="small"
-        value={editedFields.date}
-        onChange={(e) =>
-          setEditedFields((prev) => ({ ...prev, date: e.target.value }))
-        }
+      <ProfileSelector
+        onSelection={onProfileChange}
+        type={SelectionType.CATEGORY}
+        selector={categories}
+        onUpdate={onUpdate}
       />
-      <TextField
-        label="Time"
-        size="small"
-        value={editedFields.time}
-        onChange={(e) =>
-          setEditedFields((prev) => ({ ...prev, time: e.target.value }))
-        }
-      />
-      <TextField
-        label="Category"
-        size="small"
-        value={editedFields.category}
-        onChange={(e) =>
-          setEditedFields((prev) => ({
-            ...prev,
-            category: e.target.value,
-          }))
-        }
-      />
-      <TextField
-        label="Note Title"
-        size="small"
-        value={editedFields.noteTitle}
-        onChange={(e) =>
-          setEditedFields((prev) => ({
-            ...prev,
-            noteTitle: e.target.value,
-          }))
-        }
-      />
-      <TextField
-        label="Note Description"
-        size="small"
-        multiline
-        rows={2}
-        value={editedFields.noteDescription}
-        onChange={(e) =>
-          setEditedFields((prev) => ({
-            ...prev,
-            noteDescription: e.target.value,
-          }))
-        }
+      <DateTimePicker handleDuration={onTimeChange} />
+      <Note
+        title={editedFields.noteTitle}
+        description={editedFields.noteDescription}
+        onChange={onNoteChange}
       />
       <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
         <Button variant="contained" color="primary" onClick={handleSave}>

@@ -1,4 +1,4 @@
-import { MediaItem, MediaType, NoteFields } from "../ComponentTypes";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
   Box,
   Card,
@@ -7,14 +7,14 @@ import {
   IconButton,
   Paper,
 } from "@mui/material";
-import ReactPlayer from "react-player";
 import { RefObject, useState } from "react";
+import ReactPlayer from "react-player";
+import { MediaItem, MediaType, NoteFields } from "../ComponentTypes";
 import { useAppDispatch, useAppSelector } from "../Hooks/customhooks";
 import { PageNavID } from "../PageNavID";
-import NoteEditMode from "./NoteEditMode";
-import DeleteIcon from "@mui/icons-material/Delete";
-import NoteViewMode from "./NoteViewMode";
 import { handleMediaDelete, handleNoteEdit } from "../Redux/mediauploadhandler";
+import NoteEditMode from "./NoteEditMode";
+import NoteViewMode from "./NoteViewMode";
 
 type ShowPreviewProps = {
   scrollRef: RefObject<HTMLDivElement>;
@@ -35,7 +35,6 @@ const ShowPreview = (props: ShowPreviewProps) => {
       : "";
   const showNote = pageSelect !== PageNavID.MEMORY && item.note.title !== "";
 
-  // Store edits in local state so we don't overwrite item until Save
   const [editedFields, setEditedFields] = useState<NoteFields>({
     name: item.name,
     date: item.duration.Date,
