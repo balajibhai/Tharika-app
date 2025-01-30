@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
+import CustomButton from "../Atoms/CustomButton";
 import DottedSquares from "../Atoms/DottedSquare";
+import Note from "../Atoms/Note";
+import SuccessNotification from "../Atoms/SuccessNotification";
 import Text from "../Atoms/Text";
-import DateTimePicker from "../Molecules/DateTimePicker";
-import MediaDisplay from "../Molecules/MediaDisplay";
 import {
   DurationType,
   MediacontainerType,
@@ -11,15 +12,16 @@ import {
   NoteType,
   SelectionType,
 } from "../ComponentTypes";
-import CustomButton from "../Atoms/CustomButton";
-import SuccessNotification from "../Atoms/SuccessNotification";
-import UploadLocationSelector from "../Molecules/UploadLocationSelector";
-import ProfileSelector from "./ProfileSelector";
 import { useAppDispatch, useAppSelector } from "../Hooks/customhooks";
-import { handleMediaUpload } from "../Redux/mediauploadhandler";
-import Note from "../Atoms/Note";
-import { addProfile } from "../Redux/profileselector";
+import DateTimePicker from "../Molecules/DateTimePicker";
+import MediaDisplay from "../Molecules/MediaDisplay";
+import UploadLocationSelector from "../Molecules/UploadLocationSelector";
+import { PageNavID } from "../PageNavID";
 import { addCategory } from "../Redux/categoryselector";
+import { handleMediaUpload } from "../Redux/mediauploadhandler";
+import { clickHandler } from "../Redux/pagenavigation";
+import { addProfile } from "../Redux/profileselector";
+import ProfileSelector from "./ProfileSelector";
 
 const AddMemory = () => {
   const [previewMediaList, setPreviewMediaList] = useState<MediaItem[]>([]);
@@ -80,6 +82,9 @@ const AddMemory = () => {
       setShowSuccessNotification(true);
       setShowUploadButton(false);
       dispatch(handleMediaUpload({ list: previewMediaList, selectedValue }));
+      setTimeout(() => {
+        dispatch(clickHandler(PageNavID.HOME));
+      }, 1000);
       setPreviewMediaList([]);
     },
     [openUploadLocation, previewMediaList, dispatch]
@@ -95,6 +100,9 @@ const AddMemory = () => {
 
   const handleProfileSelection = useCallback(
     (name: string, type: string, id: number) => {
+      if (previewMediaList.length === 0) {
+        return;
+      }
       if (type === SelectionType.PROFILE) {
         previewMediaList[previewMediaList.length - 1].name = name;
         previewMediaList[previewMediaList.length - 1].profileId = id;
