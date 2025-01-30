@@ -199,7 +199,7 @@ const ShowPreview = (props: ShowPreviewProps) => {
             opacity: 0,
             visibility: "hidden",
             transition: "opacity 0.2s ease-in-out, visibility 0.2s ease-in-out",
-            maxWidth: 250,
+            maxWidth: 450,
             zIndex: 9999,
           }}
         >
