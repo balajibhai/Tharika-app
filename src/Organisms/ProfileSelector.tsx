@@ -11,21 +11,26 @@ const borderCardStyle = {
 };
 
 type ProfileSelectorProps = {
-  onSelection: (profile: string, type: SelectionType) => void;
+  onSelection: (profile: string, type: SelectionType, id: number) => void;
   type: SelectionType;
   selector: Profile[];
   onUpdate: (name: string, type: SelectionType) => void;
+  activeId: number;
 };
 
 const ProfileSelector = (props: ProfileSelectorProps) => {
-  const { onSelection, type, selector, onUpdate } = props;
+  const { onSelection, type, selector, onUpdate, activeId } = props;
   const [profiles, setProfiles] = useState<Profile[]>(selector);
 
   useEffect(() => {
     setProfiles(selector);
   }, [selector]);
 
-  const [activeProfile, setActiveProfile] = useState<number | null>(null);
+  useEffect(() => {
+    setActiveProfile(activeId);
+  }, [activeId]);
+
+  const [activeProfile, setActiveProfile] = useState<number | null>(activeId);
   const [isAddingMember, setIsAddingMember] = useState<boolean>(false);
 
   const handleAddProfile = useCallback(
@@ -37,13 +42,13 @@ const ProfileSelector = (props: ProfileSelectorProps) => {
   );
 
   const profileCardClick = useCallback(
-    (id: number | null, name: string) => {
+    (id: number, name: string) => {
       if (id === activeProfile) {
         setActiveProfile(null);
-        onSelection("", type);
+        onSelection("", type, id);
       } else {
         setActiveProfile(id);
-        onSelection(name, type);
+        onSelection(name, type, id);
       }
     },
     [onSelection, type, activeProfile]

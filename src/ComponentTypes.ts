@@ -23,6 +23,8 @@ export const DurationType = {
 };
 
 export interface MediaItem {
+  profileId: number;
+  categoryId: number;
   id: string;
   name: string;
   category: string;
@@ -48,6 +50,8 @@ export interface NoteType {
 }
 
 export interface NoteFields {
+  profileId: number;
+  categoryId: number;
   name: string;
   date: string;
   time: string;

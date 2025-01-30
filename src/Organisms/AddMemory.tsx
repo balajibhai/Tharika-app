@@ -45,6 +45,8 @@ const AddMemory = () => {
       const files = event.target.files;
       if (files) {
         const newMedia: MediaItem[] = Array.from(files).map((file) => ({
+          profileId: 0,
+          categoryId: 0,
           id: file.name,
           name: "",
           category: "",
@@ -92,11 +94,13 @@ const AddMemory = () => {
   }, [openUploadLocation]);
 
   const handleProfileSelection = useCallback(
-    (name: string, type: string) => {
+    (name: string, type: string, id: number) => {
       if (type === SelectionType.PROFILE) {
         previewMediaList[previewMediaList.length - 1].name = name;
+        previewMediaList[previewMediaList.length - 1].profileId = id;
       } else {
         previewMediaList[previewMediaList.length - 1].category = name;
+        previewMediaList[previewMediaList.length - 1].categoryId = id;
       }
       setPreviewMediaList([...previewMediaList]);
     },
@@ -159,12 +163,14 @@ const AddMemory = () => {
           type={SelectionType.PROFILE}
           selector={profiles}
           onUpdate={onUpdate}
+          activeId={0}
         />
         <ProfileSelector
           onSelection={handleProfileSelection}
           type={SelectionType.CATEGORY}
           selector={categories}
           onUpdate={onUpdate}
+          activeId={0}
         />
         <div
           style={{

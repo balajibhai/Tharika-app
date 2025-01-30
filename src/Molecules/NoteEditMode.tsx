@@ -30,11 +30,15 @@ const NoteEditMode = (props: NoteEditModeProps) => {
   };
 
   const onProfileChange = useCallback(
-    (name: string, type: string) => {
+    (name: string, type: string, id: number) => {
       if (type === SelectionType.PROFILE) {
-        setEditedFields((prev) => ({ ...prev, name: name }));
+        setEditedFields((prev) => ({ ...prev, name: name, profileId: id }));
       } else {
-        setEditedFields((prev) => ({ ...prev, category: name }));
+        setEditedFields((prev) => ({
+          ...prev,
+          category: name,
+          categoryId: id,
+        }));
       }
     },
     [setEditedFields]
@@ -72,12 +76,14 @@ const NoteEditMode = (props: NoteEditModeProps) => {
         type={SelectionType.PROFILE}
         selector={profiles}
         onUpdate={onUpdate}
+        activeId={editedFields.profileId}
       />
       <ProfileSelector
         onSelection={onProfileChange}
         type={SelectionType.CATEGORY}
         selector={categories}
         onUpdate={onUpdate}
+        activeId={editedFields.categoryId}
       />
       <DateTimePicker handleDuration={onTimeChange} />
       <Note

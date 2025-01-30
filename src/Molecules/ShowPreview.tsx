@@ -36,6 +36,8 @@ const ShowPreview = (props: ShowPreviewProps) => {
   const showNote = pageSelect !== PageNavID.MEMORY && item.note.title !== "";
 
   const [editedFields, setEditedFields] = useState<NoteFields>({
+    categoryId: item.categoryId,
+    profileId: item.profileId,
     name: item.name,
     date: item.duration.Date,
     time: item.duration.Time,
@@ -66,6 +68,8 @@ const ShowPreview = (props: ShowPreviewProps) => {
     event.stopPropagation();
     // Reset the editedFields back to original item data
     setEditedFields({
+      profileId: item.profileId,
+      categoryId: item.categoryId,
       name: item.name,
       date: item.duration.Date,
       time: item.duration.Time,
@@ -84,6 +88,8 @@ const ShowPreview = (props: ShowPreviewProps) => {
     // to actually update the item in your Redux store or parent state
     const updatedItem: MediaItem = {
       ...item,
+      profileId: editedFields.profileId,
+      categoryId: editedFields.categoryId,
       name: editedFields.name,
       duration: {
         Date: editedFields.date,
