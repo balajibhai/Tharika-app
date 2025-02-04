@@ -1,6 +1,7 @@
 import React from "react";
 import Text from "../Atoms/Text";
 import WhiteCard from "../Atoms/WhiteCard";
+import CloseIcon from "../Atoms/CloseIcon";
 
 interface ProfileCardProps {
   name: string;
@@ -21,7 +22,10 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
   };
   return (
     <WhiteCard cardStyle={cardStyle} onClick={onClick}>
-      <Text content={name} variant="subtitle2" />
+      <div style={{ display: "flex" }}>
+        <Text content={name} variant="subtitle2" />
+        <CloseIcon onClick={onClick} />
+      </div>
     </WhiteCard>
   );
 };
