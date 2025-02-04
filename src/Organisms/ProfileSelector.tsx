@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import ProfileCard from "../Molecules/ProfileCard";
-import AddMember from "../Molecules/AddMember";
-import Text from "../Atoms/Text";
 import LightBorderCard from "../Atoms/LightBorderCard";
+import Text from "../Atoms/Text";
 import { Profile, SelectionType } from "../ComponentTypes";
+import AddMember from "../Molecules/AddMember";
+import ProfileCard from "../Molecules/ProfileCard";
 
 const borderCardStyle = {
   padding: "20px",
@@ -75,6 +75,8 @@ const ProfileSelector = (props: ProfileSelectorProps) => {
               name={profile.name}
               isActive={activeProfile === profile.id}
               onClick={() => profileCardClick(profile.id, profile.name)}
+              cardID={profile.id}
+              type={type}
             />
           ))}
           <ProfileCard
@@ -83,6 +85,7 @@ const ProfileSelector = (props: ProfileSelectorProps) => {
             }
             isActive={false}
             onClick={() => setIsAddingMember(true)}
+            addCard={true}
           />
         </div>
         {isAddingMember && <AddMember onAdd={handleAddProfile} />}

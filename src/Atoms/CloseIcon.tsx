@@ -3,7 +3,7 @@ import React from "react";
 interface CloseIconProps {
   size?: number;
   color?: string;
-  onClick?: () => void;
+  onClick: () => void;
 }
 
 const CloseIcon: React.FC<CloseIconProps> = ({
