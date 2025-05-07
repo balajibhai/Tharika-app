@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { useAppSelector } from "./Hooks/customhooks";
+import AfterAuth from "./Molecules/AfterAuth";
+import AuthPage from "./Organisms/AuthPage";
 
-function App() {
+const App = () => {
+  const { loginState } = useAppSelector((state) => state.authenticationReducer);
+  // fetch("http://localhost:3001/posts")
+  //   .then((response) => response.json())
+  //   .then((data) => console.log(data));
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <AuthPage />
+      <Routes>
+        {loginState && (
+          <>
+            <Route
+              path="/"
+              element={
+                loginState ? <Navigate to="/home" replace /> : <AuthPage />
+              }
+            />
+            <Route path="/home/*" element={<AfterAuth />} />
+          </>
+        )}
+      </Routes>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
+// test commit
